@@ -12,7 +12,7 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package*.json ./
 #COPY package-lock.json ./
 
-RUN yarn install
+RUN yarn add
 
 # add app
 COPY . ./
