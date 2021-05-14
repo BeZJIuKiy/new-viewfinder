@@ -1,7 +1,4 @@
-// const userAvatar = 'https://diletant.media/upload/medialibrary/75f/75fc56318cbdcf69f479b48892351a73.jpg';
-// const userAvatar = 'https://st4.depositphotos.com/11570224/20754/v/1600/depositphotos_207548456-stock-illustration-christopher-columbus-icon-symbol-avatar.jpg';
-const userAvatar = 'https://www.pngkey.com/png/full/572-5723307_kaneki-ken-kanekiken-kaneki-anime.png';
-// const userAvatar = 'https://cdn.pixabay.com/photo/2014/04/03/10/32/businessman-310819_960_720.png';
+import { userAvatar } from "./portsReduser";
 
 let counter = {
     fleetId: 0,

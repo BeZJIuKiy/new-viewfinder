@@ -39,8 +39,9 @@ export const SimpleList = (props) => {
             ? d.cameras.data.map(e => notific += e.events.length)
             : notific += d.events.length;
 
+        // debugger;
         return (
-            <div>
+            <div key={d.id}>
                 <List component="nav" aria-label="main mailbox folders">
                     <ListItem button
                         onClick={() => {
@@ -54,18 +55,11 @@ export const SimpleList = (props) => {
                                     props.dispatch(setCurrentCamera(i)),
 
                                     history.push('/events')
-                                    //     eventNewPath({
-                                    //     country: d.country,
-                                    //     city: d.city,
-                                    //     id: d.id,
-                                    //     num: i,
-                                    // }))
-                                    // history.push(`/events?country=${d.country}&city=${d.city}&camId=${d.id}&num=${i}`)
                                 }</>)
                         }}
                     >
                         <ListItemIcon>
-                            <Icon><img src={props.icons.draverIcon} height={25} width={25} /></Icon>
+                            <Icon><img src={props.icons.draverIcon} height={25} width={25} alt="" /></Icon>
                         </ListItemIcon>
                         <ListItemText primary={d.description} />
 

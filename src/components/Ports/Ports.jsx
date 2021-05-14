@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import { Header } from './Header/Header';
 import { Drawer } from './Drawer/Drawer';
 import YaMap from './YaMap/YaMap';
@@ -6,10 +6,6 @@ import './ports.css';
 import { NewMap } from './NewMap/NewMap';
 import { setCurrentCamera } from '../../redux/portsReduser';
 
-// const goToEvents = (num) => {
-//     props.dispatch(setCurrentCamera(num))
-//     return (`/events`);
-// }
 
 export const Ports = (props) => {
     // const [totalReactPackages, setTotalReactPackages] = useState(null);
@@ -40,11 +36,10 @@ export const Ports = (props) => {
 
 
 
-    {/* Блок для YaMap */ }
+    // Блок для YaMap
     const [pleaceMapCoord, setPleaceMapCoord] = useState();
     const [mapCenter, setMapCenter] = useState();
     const [icons, setIcons] = useState();
-    const [headerData, setHeaderData] = useState();
     const [firstRenderPorts, setFirstRenderPorts] = useState(true);
     const [balCont, setBalCont] = useState(``);
 
@@ -73,8 +68,6 @@ export const Ports = (props) => {
         setMapCenter(props.state.ports.data[currentPort].cameras.data[0]);
         setIcons(props.state.ports.data[currentPort].cameras.icons);
     }
-
-    // href="/events?country=${data.country}&city=${data.city}&camId=${data.id}&num=${num}">
 
     const changeBalConst = (data, num) => {
         setBalCont(`
@@ -144,7 +137,7 @@ export const Ports = (props) => {
                 <select
                     onChange={handleAddrTypeChange}
                     className="browser-default custom-select" >{
-                        addtype.map((address, key) => <option value={key}>{address}</option>)
+                        addtype.map((address, key) => <option value={key} key={key}>{address}</option>)
                     }
                 </select >
             </div>

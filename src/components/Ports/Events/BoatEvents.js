@@ -16,12 +16,8 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import EditIcon from '@material-ui/icons/Edit';
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -137,7 +133,6 @@ const useToolbarStyles = makeStyles((theme) => ({
 const EnhancedTableToolbar = (props) => {
   const classes = useToolbarStyles();
   const { numSelected } = props;
-  // debugger;
 
   return (
     <Toolbar
@@ -223,7 +218,8 @@ export const BoatEvents = (props) => {
   const [orderBy, setOrderBy] = React.useState('typeVessel');
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
+  // const [dense, setDense] = React.useState(false);
+  const [dense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   useEffect((e) => {
@@ -302,15 +298,13 @@ export const BoatEvents = (props) => {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
+  // const handleChangeDense = (event) => {
+  //   setDense(event.target.checked);
+  // };
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
-
-  // debugger;
 
   return (
     <div className={classes.root}>
@@ -361,11 +355,8 @@ export const BoatEvents = (props) => {
                           inputProps={{ 'aria-labelledby': labelId }}
                         />
                       </TableCell>
-                      {/* <TableCell component="th" id={labelId} scope="row" padding="none">
-                        {row.typeError} */}
 
                       <TableCell component="th" id={labelId} scope="row" padding="none" align="center"
-                        // className={`events__type__notification ${row.typeError.toLowerCase()}`}>
                         className={notifType}>{row.typeError}</TableCell>
                       <TableCell align="left">{row.typeVessel}</TableCell>
                       <TableCell align="left">{row.date}</TableCell>

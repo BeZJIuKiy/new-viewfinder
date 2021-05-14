@@ -17,34 +17,9 @@ export const Events = (props) => {
     const [events, setEvents] = useState({
         curPort: props.currentPortData.port,
         curCamera: props.currentPortData.camera,
-    })
+    });
 
-    // useEffect(() => {
-    //     let urlPath = { numPort: -1 };
 
-    //     window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, (m, key, value) => {
-    //         urlPath[key] = value;
-    //     });
-
-    //     for (let i = 0; i < props.portsData.length; ++i) {
-    //         if (props.portsData[i].description === urlPath.city) {
-    //             urlPath.numPort = i;
-    //             break;
-    //         }
-    //     }
-
-    //     if (urlPath.num >= 0) {
-    //         props.dispatch(setCurrentPort(urlPath.numPort));
-    //         props.dispatch(setCurrentCamera(urlPath.num));
-
-    //         setEvents({
-    //             curPort: props.portsData[urlPath.numPort],
-    //             curCamera: props.portsData[urlPath.numPort].cameras.data[urlPath.num],
-    //         });
-    //     }
-    // }, [window.location.href]);
-
-    
     if (typeof events.curPort.id === 'undefined') props.dispatch(setCurrentPort(0));
     if (typeof events.curCamera.id === 'undefined') props.dispatch(setCurrentCamera(0));
 
@@ -99,7 +74,7 @@ export const Events = (props) => {
         setOtherCameras(events.curPort.cameras.data.map((cam, i) => {
             if (cam.id !== events.curCamera.id) {
                 return (
-                    <div className='events__live__another__cameras__item'>
+                    <div className='events__live__another__cameras__item' key={cam.id + 10}>
                         <div className="events__live__go__another__camera"
                             onClick={() => {
                                 props.dispatch(setCurrentCamera(i));
@@ -215,10 +190,7 @@ export const Events = (props) => {
                                             <ArrowForwardIosIcon
                                                 className={`events__image__boat left__arrow`}
                                                 fontSize="large"
-                                                onClick={() => {
-                                                    changeSelectedImg(-1);
-
-                                                }}
+                                                onClick={() => changeSelectedImg(-1)}
                                             />
                                         </IconButton>
 
@@ -230,7 +202,7 @@ export const Events = (props) => {
                                         <IconButton style={{ color: '#333' }} aria-label="add an alarm">
                                             <ArrowForwardIosIcon
                                                 fontSize="large"
-                                                onClick={() => { changeSelectedImg(+1) }}
+                                                onClick={() => changeSelectedImg(+1)}
                                             />
                                         </IconButton>
                                     </div>

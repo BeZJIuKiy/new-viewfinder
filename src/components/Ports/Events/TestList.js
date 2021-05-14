@@ -31,7 +31,7 @@ export const TestList = (props) => {
 
     const boat = allTypeVessel.map((type, i) => {
         return (
-            <div className={classes.root}>
+            <div className={classes.root} key={i*2}>
                 <List component="nav" aria-label="main mailbox folders">
                     <ListItem button onClick={() => {
                         props.changeBoat(type)

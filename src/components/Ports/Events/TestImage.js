@@ -3,8 +3,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-import IconButton from '@material-ui/core/IconButton';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,7 +47,6 @@ export const TestImage = (props) => {
         style={{ cursor: 'pointer' }}
         onClick={() => { 
           props.clickOnImage(true);
-          // props.showSelectedImg(tile.id);
           props.showSelectedImg(i);
         }}
         src={tile.imageLink} alt={tile.typeVessel}
@@ -62,28 +59,6 @@ export const TestImage = (props) => {
       />
     </GridListTile>
   )});
-
-  // const boatImage = props.boatImage.map((tile) => (
-  //   // <GridListTile key={tile.img} cols={tile.featured ? 2 : 1} rows={tile.featured ? 2 : 1}>
-  //   <GridListTile key={tile.imageLink} cols={2} rows={2}>
-  //     <img
-  //       style={{ cursor: 'pointer' }}
-  //       onClick={() => { props.clickOnImage(true) }}
-  //       src={tile.imageLink} alt={tile.typeVessel}
-  //     />
-  //     <GridListTileBar
-  //       className={classes.titleBar}
-  //       title={tile.typeVessel}
-  //       titlePosition="top"
-  //       actionPosition="left"
-  //     />
-  //   </GridListTile>
-  // ))
-
-
-  // allTypeVessel = allTypeVessel.filter((item, pos) => (
-  //   allTypeVessel.indexOf(item) === pos
-  // ));
 
   return (
     <div className={classes.root}>

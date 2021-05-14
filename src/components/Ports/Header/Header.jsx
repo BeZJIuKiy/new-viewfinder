@@ -27,7 +27,7 @@ export const Header = (props) => {
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+  // const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -48,25 +48,6 @@ export const Header = (props) => {
 
   const menuId = 'primary-search-account-menu';
 
-  // const renderNewMenu = (
-  //   <Menu
-  //     anchorEl={anchorEl}
-  //     anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-  //     id={menuId}
-  //     keepMounted
-  //     transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-  //     // open={isMenuOpen}
-  //     onClose={handleMenuClose}
-  //   >
-  //     <MenuItem onClick={handleMenuClose}>
-  //       New Profile
-  //     </MenuItem>
-  //     <MenuItem onClick={handleMenuClose}>
-  //       <NavLink className={'menu__btn'} to='/account'>New My account</NavLink>
-  //     </MenuItem>
-  //   </Menu>
-  // );
-
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -77,10 +58,10 @@ export const Header = (props) => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>
+      {/* <MenuItem onClick={handleMenuClose}> */}
         {/* <NavLink className={'menu__btn'} to='/profile'>Profile</NavLink> */}
-        Profile
-      </MenuItem>
+        {/* Profile */}
+      {/* </MenuItem> */}
       <MenuItem onClick={handleMenuClose}>
         <NavLink className={'menu__btn'} to='/account'>My account</NavLink>
       </MenuItem>
