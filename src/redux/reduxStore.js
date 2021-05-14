@@ -43,8 +43,8 @@ let redusers = combineReducers({
 
 const oldState = loadState();
 
-// export let store = createStore(redusers, oldState);
-export let store = createStore(redusers);
+export let store = createStore(redusers, oldState);
+// export let store = createStore(redusers);
 
 // Add a change listener to the store, and invoke our saveState function defined above.
 

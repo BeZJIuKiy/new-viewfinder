@@ -78,11 +78,6 @@ export const Auth = (props) => {
           <NavLink className='btn btn--primary btn--auth'
             to='/signin'>Sign in</NavLink>
         </div>
-
-        {/* <div className='auth__item'>
-        <NavLink className='btn btn--secondary btn--auth'
-          to='/signup'>SignUp</NavLink>
-      </div> */}
       </div>
     </div>
   );
