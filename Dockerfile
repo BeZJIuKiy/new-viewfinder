@@ -6,18 +6,18 @@ WORKDIR /app
 
 # add `/app/node_modules/.bin` to $PATH
 # ENV PATH /app/node_modules/.bin:$PATH
-ENV PORT=8080
+ENV PORT=8000
 
 # install app dependencies
 COPY package*.json ./
 #COPY package-lock.json ./
 
-RUN yarn install
+RUN npm install
 
 # add app
 COPY . ./
 
-EXPOSE 8080
+EXPOSE 8000
 
 # start app
-CMD ["yarn", "start"]
+CMD ["npm", "start"]
