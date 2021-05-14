@@ -12,7 +12,7 @@ ENV PATH /app/node_modules/.bin:$PATH
 COPY package*.json ./
 #COPY package-lock.json ./
 
-RUN yarn add
+RUN npm install
 
 # add app
 COPY . ./
@@ -20,4 +20,4 @@ COPY . ./
 EXPOSE 8000
 
 # start app
-CMD ["yarn", "start"]
+CMD ["npm", "start"]
