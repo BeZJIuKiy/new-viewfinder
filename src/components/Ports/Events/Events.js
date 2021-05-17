@@ -89,7 +89,8 @@ export const Events = (props) => {
                         />
 
                         <div className={`events__live__another__cameras title`}>
-                            {`${cam.city}: ${cam.description}`}
+                            {/* {`${cam.city}: ${cam.description}`} */}
+                            {`${cam.description}`}
 
                             {/* <IconButton aria-label="show 4 new mails" color="inherit"> */}
                             <IconButton color="inherit" style={{ padding: '10px 0 0 5px' }}>
@@ -131,21 +132,25 @@ export const Events = (props) => {
                 <div className='events__container'>
                     <div className='events__content'>
                         <div className='events__camera'>
-                            <div className="events__camera__substrate"></div>
-                            <div className='events__camera__item'>
-                                <TestList
-                                    currentPortData={events.curCamera.events}
-                                    changeBoat={changeBoat}
-                                    dispatch={props.dispatch}
-                                />
-                            </div>
-                            <div className='events__camera__item'>
-                                <TestImage
-                                    clickOnImage={clickOnImage}
-                                    currentBoat={currentBoat}
-                                    boatImage={events.curCamera.events}
-                                    showSelectedImg={showSelectedImg}
-                                />
+                            <div className={`events__camera__item container`}>
+                                <div className={`events__camera__item title`}>EVENTS</div>
+                                <div className={`events__camera__item events__and__image`}>
+                                    <div className='events__camera__item'>
+                                        <TestList
+                                            currentPortData={events.curCamera.events}
+                                            changeBoat={changeBoat}
+                                            dispatch={props.dispatch}
+                                        />
+                                    </div>
+                                    <div className='events__camera__item'>
+                                        <TestImage
+                                            clickOnImage={clickOnImage}
+                                            currentBoat={currentBoat}
+                                            boatImage={events.curCamera.events}
+                                            showSelectedImg={showSelectedImg}
+                                        />
+                                    </div>
+                                </div>
                             </div>
 
                             <div className={`events__live ${isImageShow ? 'hide' : 'show'}`}>
