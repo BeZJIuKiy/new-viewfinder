@@ -1,13 +1,13 @@
 /* Icons */
-import mIcon_ports from '../components/Ports/Drawer/images/harborIcon02.png';
-import mIcon_cameras from '../components/Ports/Drawer/images/camIcon.png';
+import mIcon_ports from '../../components/Ports/Drawer/images/harborIcon02.png';
+import mIcon_cameras from '../../components/Ports/Drawer/images/camIcon.png';
 
 /* Boath */
-import boat1_01 from '../components/Ports/Events/images/b1-01.jpg'
-import boat1_02 from '../components/Ports/Events/images/b1-02.jpg'
-import boat1_03 from '../components/Ports/Events/images/b1-03.jpg'
-import boat1_04 from '../components/Ports/Events/images/b1-04.jpg'
-import boat1_05 from '../components/Ports/Events/images/b1-05.jpg'
+import boat1_01 from '../../components/Ports/Events/images/b1-01.jpg'
+import boat1_02 from '../../components/Ports/Events/images/b1-02.jpg'
+import boat1_03 from '../../components/Ports/Events/images/b1-03.jpg'
+import boat1_04 from '../../components/Ports/Events/images/b1-04.jpg'
+import boat1_05 from '../../components/Ports/Events/images/b1-05.jpg'
 
 /* User avatar */
 export const userAvatar = 'https://diletant.media/upload/medialibrary/75f/75fc56318cbdcf69f479b48892351a73.jpg';
@@ -19,13 +19,13 @@ export const userAvatar = 'https://diletant.media/upload/medialibrary/75f/75fc56
 const SET_CURRENT_PORT = 'SET CURRENT PORT';
 const SET_CURRENT_CAMERA = 'SET CURRENT CAMERA';
 
-let counter = {
+const counter = {
     portsId: 0,
     camerasId: 0,
     eventsId: 0,
 }
 
-let initialState = {
+const initialState = {
     ports: {
         icons: {
             mapIcon: 'islands#blueWaterwayIcon',
@@ -731,9 +731,6 @@ let initialState = {
     currentData: {
         port: {},
         camera: {},
-
-        // setCurrentPort(currentPort) { this.port = currentPort; },
-        // setCurrentCamera(currentCamera) { this.camera = currentCamera; },
     },
 
     header: {

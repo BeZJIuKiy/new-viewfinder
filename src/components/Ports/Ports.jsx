@@ -4,10 +4,15 @@ import { Drawer } from './Drawer/Drawer';
 import YaMap from './YaMap/YaMap';
 import './ports.css';
 import { NewMap } from './NewMap/NewMap';
-import { setCurrentCamera } from '../../redux/portsReduser';
+import { setCurrentCamera } from '../../store/OldRedux/portsReduser';
+import {useSelector} from "react-redux";
+import {useActions} from "../../hooks/useActions";
 
 
 export const Ports = (props) => {
+    const {selectedObjects, icons, header, data} = useSelector(state => state.ports);
+    const {SelectedCameraAction} = useActions();
+
     // const [totalReactPackages, setTotalReactPackages] = useState(null);
     // const [errorMessage, setErrorMessage] = useState(null);
 
@@ -39,14 +44,20 @@ export const Ports = (props) => {
     // Блок для YaMap
     const [pleaceMapCoord, setPleaceMapCoord] = useState();
     const [mapCenter, setMapCenter] = useState();
-    const [icons, setIcons] = useState();
+    const [icon, setIcon] = useState();
     const [firstRenderPorts, setFirstRenderPorts] = useState(true);
     const [balCont, setBalCont] = useState(``);
 
     if (firstRenderPorts) {
-        setPleaceMapCoord(props.state.ports.data);
-        setMapCenter(props.state.ports.data[0]);
-        setIcons(props.state.ports.icons)
+        // setPleaceMapCoord(props.state.ports.data);
+        // setMapCenter(props.state.ports.data[0]);
+        // setIcon(props.state.ports.icons)
+        // setBalCont(``);
+        // setFirstRenderPorts(false);
+
+        setPleaceMapCoord(data);
+        setMapCenter([0]);
+        setIcon(icons)
         setBalCont(``);
         setFirstRenderPorts(false);
     }
@@ -63,10 +74,14 @@ export const Ports = (props) => {
     // .then(d => setPleaceMapCoord(d))
     // .catch();
 
-    const showCameras = (currentPort) => {
-        setPleaceMapCoord(props.state.ports.data[currentPort].cameras.data);
-        setMapCenter(props.state.ports.data[currentPort].cameras.data[0]);
-        setIcons(props.state.ports.data[currentPort].cameras.icons);
+    const showCameras = (i) => {
+        // setPleaceMapCoord(props.state.ports.data[currentPort].cameras.data);
+        // setMapCenter(props.state.ports.data[currentPort].cameras.data[0]);
+        // setIcon(props.state.ports.data[currentPort].cameras.icons);
+
+        setPleaceMapCoord(selectedObjects.port.cameras.data);
+        setMapCenter(selectedObjects.port.cameras.data[0]);
+        setIcon(selectedObjects.port.cameras.icons);
     }
 
     const changeBalConst = (data, num) => {
@@ -86,7 +101,8 @@ export const Ports = (props) => {
                 </div>
                 <div class="yamap__balloon__link">
                     <a class="yamap__balloon__link__item"
-                        href=${props.dispatch(setCurrentCamera(num)), '/events'}
+                        href=${SelectedCameraAction(num), '/events'}
+                        
             }}>
                         Move to ${data.name}
                     </a>
@@ -95,6 +111,7 @@ export const Ports = (props) => {
         `);
     }
 
+    // href=${props.dispatch(setCurrentCamera(num)), '/events'}  см выше
 
     const [mapVisible, setmapVisible] = useState(true);
     const [addtype] = useState(["Yamap", "NewMap"]);
@@ -111,7 +128,7 @@ export const Ports = (props) => {
             <div className="searcher">
                 <Drawer
                     state={pleaceMapCoord}
-                    icons={icons}
+                    icons={icon}
                     showCameras={showCameras}
                     notification={props.events}
                     dispatch={props.dispatch}
@@ -121,7 +138,7 @@ export const Ports = (props) => {
                     isVisible={mapVisible}
                     center={mapCenter}
                     plMark={pleaceMapCoord}
-                    icons={icons}
+                    icons={icon}
                     showCameras={showCameras}
 
                     balCont={balCont}

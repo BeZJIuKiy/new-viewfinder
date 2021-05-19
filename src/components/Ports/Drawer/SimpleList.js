@@ -10,7 +10,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import { NavLink, useHistory } from 'react-router-dom';
-import { setCurrentCamera, setCurrentPort } from '../../../redux/portsReduser';
+import { setCurrentCamera, setCurrentPort } from '../../../store/OldRedux/portsReduser';
 
 const useStyles = makeStyles((theme) => ({
     root: {

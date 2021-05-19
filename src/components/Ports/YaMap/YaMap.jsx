@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { YMaps, Map, Placemark } from 'react-yandex-maps';
-import { setCurrentPort } from '../../../redux/portsReduser';
+import { setCurrentPort } from '../../../store/OldRedux/portsReduser';
 import './yaMap.css';
 
 const YaMap = (props) => {

@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import CloseIcon from '@material-ui/icons/Close';
 import Badge from '@material-ui/core/Badge';
-import { setCurrentCamera, setCurrentPort } from '../../../redux/portsReduser';
+import { setCurrentCamera, setCurrentPort } from '../../../store/OldRedux/portsReduser';
 import './events.css'
 
 
