@@ -4,8 +4,10 @@ import mIcon_cameras from '../../components/Ports/Drawer/images/camIcon.png';
 
 // Boath
 import boat1_01 from '../../components/Ports/Events/images/b1-01.jpg'
+// import boat1_02 from '../../components/Ports/Events/images/b1-02.jpg'
 import boat1_03 from '../../components/Ports/Events/images/b1-03.jpg'
 import boat1_04 from '../../components/Ports/Events/images/b1-04.jpg'
+// import boat1_05 from '../../components/Ports/Events/images/b1-05.jpg'
 
 export const userAvatar = 'https://diletant.media/upload/medialibrary/75f/75fc56318cbdcf69f479b48892351a73.jpg';
 
@@ -16,9 +18,14 @@ const counter = {
 }
 
 const initialState = {
-	icons: {
-		mapIcon: 'islands#blueWaterwayIcon',
-		draverIcon: mIcon_ports,
+	portIcon: {
+		map: 'islands#blueWaterwayIcon',
+		drawer: mIcon_ports,
+	},
+
+	cameraIcon: {
+		map: 'islands#blueVideoIcon',
+		drawer: mIcon_cameras,
 	},
 
 	selectedObjects: {
@@ -43,11 +50,6 @@ const initialState = {
 			link: '',
 
 			cameras: {
-				icons: {
-					mapIcon: 'islands#blueVideoIcon',
-					draverIcon: mIcon_cameras,
-				},
-
 				data: [
 					{
 						id: counter.camerasId++,
@@ -74,7 +76,7 @@ const initialState = {
 								time: '10:20:08',
 								timezone: '+0300',
 								imageLink: boat1_03,
-								disctiption: 'Nothing interesting, keep moving on',
+								description: 'Nothing interesting, keep moving on',
 							},
 
 							{
@@ -88,7 +90,7 @@ const initialState = {
 								time: '10:22:31',
 								timezone: '+0300',
 								imageLink: boat1_01,
-								disctiption: 'Nothing interesting, keep moving on',
+								description: 'Nothing interesting, keep moving on',
 							},
 						],
 					},
@@ -118,7 +120,7 @@ const initialState = {
 								time: '10:22:31',
 								timezone: '+0300',
 								imageLink: boat1_04,
-								disctiption: 'Nothing interesting, keep moving on',
+								description: 'Nothing interesting, keep moving on',
 							},
 						],
 					},
@@ -131,6 +133,7 @@ const initialState = {
 // Actions
 export const SET_SELECTED_PORT = 'SET_SELECTED_PORT';
 export const SET_SELECTED_CAMERA = 'SET_CURRENT_CAMERA';
+export const CLEAR_SELECTED_OBJECTS = 'CLEAR_SELECTED_OBJECTS';
 
 // Reducer
 export const portsReducer = (state = initialState, action) => {
@@ -149,6 +152,10 @@ export const portsReducer = (state = initialState, action) => {
 
 			selectedObjects.camera = port.cameras[i];
 			return {...state, selectedObjects}
+		}
+
+		case CLEAR_SELECTED_OBJECTS: {
+			return {...state, selectedObjects: action.payload}
 		}
 		default:
 			return state;
