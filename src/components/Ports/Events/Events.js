@@ -13,21 +13,10 @@ import {useSelector} from "react-redux";
 import {useActions} from "../../../hooks/useActions";
 
 
-export const Events = (props) => {
-	// Get Data Block
-	const {port, camera} = useSelector(state => state.ports.selectedObjects);
+export const Events = () => {
+	const {selectedObjects: {port, camera, event}} = useSelector(state => state.ports);
 
 	const {SelectedPortAction, SelectedCameraAction} = useActions();
-
-	// const [events, setEvents] = useState({
-	//     curPort: props.currentPortData.port,
-	//     curCamera: props.currentPortData.camera,
-	// });
-
-
-	// if (typeof events.curPort.id === 'undefined') props.dispatch(setCurrentPort(0));
-	// if (typeof events.curCamera.id === 'undefined') props.dispatch(setCurrentCamera(0));
-
 
 	if (typeof port.id === 'undefined') SelectedPortAction(0);
 	if (typeof camera.id === 'undefined') SelectedCameraAction(0);
@@ -35,33 +24,31 @@ export const Events = (props) => {
 	const [isImageShow, setIsImageShow] = useState(false);
 	const [currentBoat, setCurrentBoat] = useState('');
 	const [otherCameras, setOtherCameras] = useState();
-	// const [selectedEvent, setSelectedEvent] = useState(events.curCamera);
 	const [selectedEvent, setSelectedEvent] = useState(camera);
 	const [selectedImage, setSelectedImage] = useState(-1);
 
-	const clickOnImage = (visible) => {
-		setIsImageShow(visible)
-	};
+	const clickOnImage = (visible) => setIsImageShow(visible);
 
 	const changeBoat = (newBoat) => {
-		setSelectedImage(-1);
-		setIsImageShow(false);
-		setCurrentBoat(newBoat);
+		// setSelectedImage(-1);
+		// setIsImageShow(false);
+		// setCurrentBoat(newBoat);
 	}
 
-	const showSelectedImg = (i) => {
-		if (currentBoat) {
-			// const curEvent = events.curCamera.events.filter(e => e.typeVessel === currentBoat);
-			const curEvent = camera.events.filter(e => e.typeVessel === currentBoat);
-			setSelectedImage(curEvent[i].id);
-			return setSelectedEvent(curEvent[i])
-		} else {
-			// setSelectedImage(events.curCamera.events[i].id);
-			// return setSelectedEvent(events.curCamera.events[i]);
+	useEffect(() => {
+		// console.log(event)
+		setSelectedImage(-1);
+		setIsImageShow(false);
+		setCurrentBoat(event.typeVessel);
+	}, [event]);
 
-			setSelectedImage(camera.events[i].id);
-			return setSelectedEvent(camera.events[i]);
-		}
+	const showSelectedImg = (i) => {
+		const curEvent = currentBoat
+			? camera.events.filter(e => e.typeVessel === currentBoat)
+			: camera.events;
+
+		setSelectedImage(curEvent[i].id);
+		setSelectedEvent(curEvent[i]);
 	}
 
 	const changeSelectedImg = (num) => {
@@ -69,55 +56,32 @@ export const Events = (props) => {
 		const cameraEvent = currentBoat
 			? camera.events.filter(e => e.typeVessel === currentBoat)
 			: camera.events;
-		cameraEvent.forEach((element, i) => {
+		cameraEvent.forEach((element, index) => {
 			if (id === element.id) {
-				if (i + num < 0 || i + num === cameraEvent.length) return setSelectedEvent(cameraEvent[i]), setSelectedImage(cameraEvent[i].id);
-				return setSelectedEvent(cameraEvent[i + num]), setSelectedImage(cameraEvent[i + num].id);
+				const task = (index + num < 0 || index + num === cameraEvent.length);
+				const imgNum = task ? index : index + num;
+
+				setSelectedEvent(cameraEvent[imgNum]);
+				setSelectedImage(cameraEvent[imgNum].id);
 			}
 		});
+	}
 
-		// if (currentBoat) {
-		//     // const cameraEvent = events.curCamera.events.filter(e => e.typeVessel === currentBoat);
-		//     const cameraEvent = camera.events.filter(e => e.typeVessel === currentBoat);
-		//     cameraEvent.forEach((element, i) => {
-		//         if (id === element.id) {
-		//             if (i + num < 0 || i + num === cameraEvent.length) return setSelectedEvent(cameraEvent[i]), setSelectedImage(cameraEvent[i].id);
-		//             return setSelectedEvent(cameraEvent[i + num]), setSelectedImage(cameraEvent[i + num].id);
-		//         }
-		//     });
-		// } else {
-		//     const cameraEvent = events.curCamera.events;
-		//     cameraEvent.forEach((element, i) => {
-		//         if (id === element.id) {
-		//             if (i + num < 0 || i + num === cameraEvent.length) return setSelectedEvent(cameraEvent[i]), setSelectedImage(cameraEvent[i].id);
-		//             return setSelectedEvent(cameraEvent[i + num]), setSelectedImage(cameraEvent[i + num].id);
-		//         }
-		//     });
+	const otherCameraClick = (i) => {
+		SelectedCameraAction(i);
+		setSelectedImage(-1);
 	}
 
 	useEffect(() => {
-		// setOtherCameras(events.curPort.cameras.data.map((cam, i) => {
 		setOtherCameras(port.cameras.data.map((cam, i) => {
-			// if (cam.id !== events.curCamera.id) {
 			if (cam.id !== camera.id) {
 				return (
 					<div className='events__live__another__cameras__item' key={cam.id + 10}>
 						<div className="events__live__go__another__camera"
-						     onClick={() => {
-							     // props.dispatch(setCurrentCamera(i));
-							     SelectedCameraAction(i);
-
-							     // setEvents({
-								 //     curPort: props.currentPortData.port,
-								 //     curCamera: props.currentPortData.camera,
-							     // });
-
-							     setSelectedImage(-1);
-						     }}
+						     onClick={() => otherCameraClick(i)}
 						/>
 
 						<div className={`events__live__another__cameras title`}>
-							{/* {`${cam.city}: ${cam.description}`} */}
 							{`${cam.description}`}
 
 							{/* <IconButton aria-label="show 4 new mails" color="inherit"> */}
@@ -146,16 +110,12 @@ export const Events = (props) => {
 				)
 			}
 		}));
-	// }, [events.curCamera.id]);
 	}, [camera]);
 
 	return (
 		<div className='events'>
 			<div>
-				<Header
-					// state={props.stateHeader}
-					// notification={props.notification}
-				/>
+				<Header/>
 
 				<div className='events__container'>
 					<div className='events__content'>
@@ -164,19 +124,11 @@ export const Events = (props) => {
 								<div className={`events__camera__item title`}>EVENTS</div>
 								<div className={`events__camera__item events__and__image`}>
 									<div className='events__camera__item'>
-										<TestList
-											// currentPortData={events.curCamera.events}
-											currentPortData={camera.events}
-											changeBoat={changeBoat}
-											// dispatch={props.dispatch}
-										/>
+										<TestList />
 									</div>
 									<div className='events__camera__item'>
 										<TestImage
 											clickOnImage={clickOnImage}
-											currentBoat={currentBoat}
-											// boatImage={events.curCamera.events}
-											boatImage={camera.events}
 											showSelectedImg={showSelectedImg}
 										/>
 									</div>
@@ -186,12 +138,10 @@ export const Events = (props) => {
 							<div className={`events__live ${isImageShow ? 'hide' : 'show'}`}>
 								<div className='events__live__camera'>
 									<div className={`events__live__camera title`}>
-										{/*{`${events.curCamera.city}: ${events.curCamera.description}`}*/}
 										{`${camera.city}: ${camera.description}`}
 									</div>
 									<div>
 										<iframe width="676" height="380"
-										        // src={events.curCamera.link}
 										        src={camera.link}
 										        title="YouTube video player"
 										        frameBorder="0"
@@ -256,14 +206,9 @@ export const Events = (props) => {
 			<div className={`events__container`}>
 				<div className='events__footer'>
 					<BoatEvents
-						// events={events.curCamera.events}
-						events={camera.events}
-						currentBoat={currentBoat}
-						// curCamera={events.curCamera}
-						curCamera={camera}
 						selectedImage={selectedImage}
-						closeImage={clickOnImage}
 						setSelectedImage={setSelectedImage}
+						closeImage={clickOnImage}
 						showSelectedImg={showSelectedImg}
 					/>
 				</div>

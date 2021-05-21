@@ -31,6 +31,11 @@ const initialState = {
 	selectedObjects: {
 		port: {},
 		camera: {},
+		event: {},
+		shipImage: {
+			eventId: null,
+			isVisible: false,
+		},
 	},
 
 	header: {
@@ -92,6 +97,20 @@ const initialState = {
 								imageLink: boat1_01,
 								description: 'Nothing interesting, keep moving on',
 							},
+
+							{
+								id: counter.eventsId++,
+								typeError: 'Regular',
+								typeVessel: 'Boat 2',
+								location: 'Russia',
+								city: 'Saint Petersburg',
+								camera: 'Camera 1',
+								date: '2020-12-21',
+								time: '10:24:16',
+								timezone: '+0300',
+								imageLink: boat1_04,
+								description: 'Nothing interesting, keep moving on',
+							},
 						],
 					},
 
@@ -135,18 +154,24 @@ export const SET_SELECTED_PORT = 'SET_SELECTED_PORT';
 export const SET_SELECTED_CAMERA = 'SET_CURRENT_CAMERA';
 export const CLEAR_SELECTED_OBJECTS = 'CLEAR_SELECTED_OBJECTS';
 
+export const SET_SELECTED_EVENT = "SET_SELECTED_EVENT";
+export const CLEAR_SELECTED_EVENT = 'CLEAR_SELECTED_EVENT';
+
+export const SET_VISIBLE_SELECTED_IMAGE = "SET_VISIBLE_SELECTED_IMAGE";
+
+
 // Reducer
 export const portsReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case SET_SELECTED_PORT: {
-			const selectedObjects = state.selectedObjects;
+			const {selectedObjects} = state;
 			const i = action.payload;
 			selectedObjects.port = state.data[i];
 			return {...state, selectedObjects};
 		}
 
 		case SET_SELECTED_CAMERA: {
-			const selectedObjects = state.selectedObjects;
+			const {selectedObjects} = state
 			const {port} = selectedObjects;
 			const i = action.payload;
 
@@ -157,6 +182,29 @@ export const portsReducer = (state = initialState, action) => {
 		case CLEAR_SELECTED_OBJECTS: {
 			return {...state, selectedObjects: action.payload}
 		}
+
+		case SET_SELECTED_EVENT: {
+			const {selectedObjects} = state
+			const {camera} = selectedObjects;
+			const i = action.payload;
+
+			selectedObjects.event = camera.events[i];
+			return {...state, selectedObjects}
+		}
+
+		case CLEAR_SELECTED_EVENT: {
+			const {selectedObjects} = state;
+			selectedObjects.event = action.payload.event;
+			return {...state, selectedObjects}
+		}
+
+		case SET_VISIBLE_SELECTED_IMAGE: {
+			const {selectedObjects} = state;
+			const {shipImage} = selectedObjects;
+			shipImage.isVisible = action.payload.isVisible;
+			return {...state, selectedObjects}
+		}
+
 		default:
 			return state;
 	}

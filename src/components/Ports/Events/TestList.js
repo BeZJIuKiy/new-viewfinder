@@ -1,65 +1,59 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
+import {useActions} from "../../../hooks/useActions";
+import {useSelector} from "react-redux";
 
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        // width: '100%',
-        width: 250,
-        maxWidth: 360,
-        maxHeight: 400,
-        backgroundColor: theme.palette.background.paper,
-        overflowY: 'auto',
-    },
+	root: {
+		// width: '100%',
+		width: 250,
+		maxWidth: 360,
+		maxHeight: 400,
+		backgroundColor: theme.palette.background.paper,
+		overflowY: 'auto',
+	},
 }));
 
 export const TestList = (props) => {
-    const classes = useStyles();
+	const classes = useStyles();
+	const {SelectedEventAction, ClearSelectedEventAction} = useActions();
+	const {selectedObjects: {camera}} = useSelector(state => state.ports)
 
-    let allTypeVessel = props.currentPortData.map((b, i) => (
-        b.typeVessel
-    ));
+	let allTypeVessel = camera.events.map(b => b.typeVessel);
 
-    allTypeVessel = allTypeVessel.filter((item, pos) => (
-        allTypeVessel.indexOf(item) === pos
-    ));
+	allTypeVessel = allTypeVessel.filter((item, pos) => (
+		allTypeVessel.indexOf(item) === pos
+	));
 
 
-    const boat = allTypeVessel.map((type, i) => {
-        return (
-            <div className={classes.root} key={i*2}>
-                <List component="nav" aria-label="main mailbox folders">
-                    <ListItem button onClick={() => {
-                        props.changeBoat(type)
-                    }}>
-                        <ListItemText primary={type} align="center" />
-                    </ListItem>
-                </List>
-                <Divider />
-            </div>
-        )
-    });
+	const boat = allTypeVessel.map((type, i) => {
+		return (
+			<div className={classes.root} key={i * 2}>
+				<List component="nav" aria-label="main mailbox folders">
+					<ListItem button onClick={() => SelectedEventAction(i)}>
+						<ListItemText primary={type} align="center"/>
+					</ListItem>
+				</List>
+				<Divider/>
+			</div>
+		)
+	});
 
-    // <ListItemIcon>
-    //     <Icon><img src={props.icons.draverIcon} height={25} width={25} /></Icon>
-    // </ListItemIcon>
+	return (
+		<div>
+			<List component="nav" aria-label="main mailbox folders">
+				<ListItem button onClick={ClearSelectedEventAction}>
+					<ListItemText primary={`All Events ${camera.name}`} align="center"/>
+				</ListItem>
+			</List>
+			<Divider/>
 
-    return (
-        <div>
-            <List component="nav" aria-label="main mailbox folders">
-                <ListItem button onClick={() => {
-                    props.changeBoat('');
-                }}>
-                    <ListItemText primary={`All Events ${props.currentPortData[0].camera}`} align="center" />
-                </ListItem>
-            </List>
-            <Divider />
-
-            { boat}
-        </div>
-    );
+			{boat}
+		</div>
+	);
 }
