@@ -150,7 +150,7 @@ export const portsReducer = (state = initialState, action) => {
 			const {port} = selectedObjects;
 			const i = action.payload;
 
-			selectedObjects.camera = port.cameras[i];
+			selectedObjects.camera = port.cameras.data[i];
 			return {...state, selectedObjects}
 		}
 

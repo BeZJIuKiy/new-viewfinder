@@ -58,8 +58,6 @@ const YaMap = (props) => {
 		        </div>
 		    </div>
 		`);
-
-		// href=${SelectedCameraAction(i), '/events'}>  см. выше
 	}
 
 	const porstCoord = allData.map((c, i) => {

@@ -10,7 +10,7 @@ export const Ports = () => {
     const [mapVisible, setmapVisible] = useState(true);
     const addtype = ["Yamap", "NewMap"];
 
-    const handleAddrTypeChange = () => setmapVisible(!mapVisible);
+    const handlerMapChange = () => setmapVisible(!mapVisible);
 
     return (
         <div>
@@ -23,7 +23,7 @@ export const Ports = () => {
 
             <div className='home__map__changer'>
                 <select
-                    onChange={handleAddrTypeChange}
+                    onChange={handlerMapChange}
                     className="browser-default custom-select" >{
                         addtype.map((address, key) => <option value={key} key={key}>{address}</option>)
                     }
