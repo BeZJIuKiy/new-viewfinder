@@ -4,6 +4,7 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import {useSelector} from "react-redux";
+import {useActions} from "../../../hooks/useActions";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -32,6 +33,7 @@ const useStyles = makeStyles((theme) => ({
 export const TestImage = (props) => {
 	const classes = useStyles();
 	const {selectedObjects: {camera, event, shipImage: {isVisible}}} = useSelector(state => state.ports);
+	const {SelectedImageVisibleAction} = useActions();
 
 	const [data, setData] = useState(camera.events);
 
@@ -47,7 +49,7 @@ export const TestImage = (props) => {
 				<img
 					style={{cursor: 'pointer'}}
 					onClick={() => {
-						props.clickOnImage(true);
+						SelectedImageVisibleAction(true);
 						props.showSelectedImg(i);
 					}}
 					src={tile.imageLink} alt={tile.typeVessel}

@@ -14,9 +14,21 @@ import {useActions} from "../../../hooks/useActions";
 
 
 export const Events = () => {
-	const {selectedObjects: {port, camera, event}} = useSelector(state => state.ports);
+	const {
+		selectedObjects: {port, camera, event,
+			shipImage: {index: imageIndex, isVisible: imageVisible},
+		},
+	} = useSelector(state => state.ports);
 
-	const {SelectedPortAction, SelectedCameraAction} = useActions();
+	// const state = useSelector(state => state.ports);
+	// console.log(imageVisible)
+
+	const {
+		SelectedPortAction,
+		SelectedCameraAction,
+		SelectedImageVisibleAction,
+		SelectedShipImageAction
+	} = useActions();
 
 	if (typeof port.id === 'undefined') SelectedPortAction(0);
 	if (typeof camera.id === 'undefined') SelectedCameraAction(0);
@@ -29,19 +41,16 @@ export const Events = () => {
 
 	const clickOnImage = (visible) => setIsImageShow(visible);
 
-	const changeBoat = (newBoat) => {
-		// setSelectedImage(-1);
-		// setIsImageShow(false);
-		// setCurrentBoat(newBoat);
-	}
-
 	useEffect(() => {
-		// console.log(event)
 		setSelectedImage(-1);
 		setIsImageShow(false);
 		setCurrentBoat(event.typeVessel);
+		SelectedImageVisibleAction(false);
 	}, [event]);
 
+	useEffect(() => {
+
+	}, [])
 	const showSelectedImg = (i) => {
 		const curEvent = currentBoat
 			? camera.events.filter(e => e.typeVessel === currentBoat)
@@ -99,10 +108,10 @@ export const Events = () => {
 							title="YouTube video player"
 							frameBorder="0"
 							allow="accelerometer;
-                                   autoplay; 
-                                   clipboard-write; 
-                                   encrypted-media; 
-                                   gyroscope; 
+                                   autoplay;
+                                   clipboard-write;
+                                   encrypted-media;
+                                   gyroscope;
                                    picture-in-picture"
 							allowFullScreen
 						/>
@@ -128,14 +137,14 @@ export const Events = () => {
 									</div>
 									<div className='events__camera__item'>
 										<TestImage
-											clickOnImage={clickOnImage}
 											showSelectedImg={showSelectedImg}
 										/>
 									</div>
 								</div>
 							</div>
 
-							<div className={`events__live ${isImageShow ? 'hide' : 'show'}`}>
+							{/*<div className={`events__live ${isImageShow ? 'hide' : 'show'}`}>*/}
+							<div className={`events__live ${imageVisible ? 'hide' : 'show'}`}>
 								<div className='events__live__camera'>
 									<div className={`events__live__camera title`}>
 										{`${camera.city}: ${camera.description}`}
@@ -161,17 +170,19 @@ export const Events = () => {
 								</div>
 							</div>
 
-							<div className={`events__image ${isImageShow ? 'show' : 'hide'}`}>
+							{/*<div className={`events__image ${isImageShow ? 'show' : 'hide'}`}>*/}
+							<div className={`events__image ${imageVisible ? 'show' : 'hide'}`}>
 								<div className='events__image__boat'>
 									<div className={`events__image__boat title`}>
 										{selectedEvent.typeVessel}
+										{/*{event.typeVessel}*/}
 									</div>
 									<div className={`events__image__boat img`}>
 										<div className={`events__image__boat close`}>
 											<IconButton style={{color: 'black'}} aria-label="add an alarm">
-												<CloseIcon onClick={() => {
-													clickOnImage(false)
-												}}/>
+												<CloseIcon onClick={() => SelectedImageVisibleAction(false)} />
+													{/*() => clickOnImage(false)}*/}
+												{/*/>*/}
 											</IconButton>
 										</div>
 
@@ -186,6 +197,7 @@ export const Events = () => {
 										<img
 											style={{width: '676px', height: '380px'}}
 											src={selectedEvent.imageLink} alt={selectedEvent.typeVessel}
+											// src={event.imageLink} alt={event.typeVessel}
 										/>
 
 										<IconButton style={{color: '#333'}} aria-label="add an alarm">
@@ -208,7 +220,7 @@ export const Events = () => {
 					<BoatEvents
 						selectedImage={selectedImage}
 						setSelectedImage={setSelectedImage}
-						closeImage={clickOnImage}
+						// closeImage={clickOnImage}
 						showSelectedImg={showSelectedImg}
 					/>
 				</div>

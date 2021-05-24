@@ -33,7 +33,7 @@ const initialState = {
 		camera: {},
 		event: {},
 		shipImage: {
-			eventId: null,
+			index: "",
 			isVisible: false,
 		},
 	},
@@ -158,6 +158,7 @@ export const SET_SELECTED_EVENT = "SET_SELECTED_EVENT";
 export const CLEAR_SELECTED_EVENT = 'CLEAR_SELECTED_EVENT';
 
 export const SET_VISIBLE_SELECTED_IMAGE = "SET_VISIBLE_SELECTED_IMAGE";
+export const SET_IMAGE_INDEX = "SET_IMAGE_INDEX";
 
 
 // Reducer
@@ -201,10 +202,16 @@ export const portsReducer = (state = initialState, action) => {
 		case SET_VISIBLE_SELECTED_IMAGE: {
 			const {selectedObjects} = state;
 			const {shipImage} = selectedObjects;
-			shipImage.isVisible = action.payload.isVisible;
+			shipImage.isVisible = action.payload;
 			return {...state, selectedObjects}
 		}
 
+		case SET_IMAGE_INDEX: {
+			const {selectedObjects} = state;
+			const {shipImage} = selectedObjects;
+			shipImage.index = action.payload;
+			return {...state, selectedObjects}
+		}
 		default:
 			return state;
 	}

@@ -19,6 +19,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import {useSelector} from "react-redux";
+import {useActions} from "../../../hooks/useActions";
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -217,7 +218,8 @@ const useStyles = makeStyles((theme) => ({
 export const BoatEvents = (props) => {
 	const classes = useStyles();
 
-	const {selectedObjects: {camera, event}} = useSelector(state => state.ports)
+	const {selectedObjects: {camera, event}} = useSelector(state => state.ports);
+	const {SelectedImageVisibleAction} = useActions();
 
 	const [data, setData] = useState(camera.events);
 	const [order, setOrder] = React.useState('asc');
@@ -294,13 +296,13 @@ export const BoatEvents = (props) => {
 		if (newSelected.length === 1) {
 			props.setSelectedImage(newSelected[0]);
 			props.showSelectedImg(index);
-			props.closeImage(true);
+			SelectedImageVisibleAction(true)
 		} else {
-			props.closeImage(false);
+			SelectedImageVisibleAction(false)
 		}
 
-		console.log("Выбрал")
-		console.log(newSelected)
+		// console.log("Выбрал")
+		// console.log(newSelected)
 		setSelected(newSelected);
 	};
 

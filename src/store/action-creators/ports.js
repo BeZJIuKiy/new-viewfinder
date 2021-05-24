@@ -1,8 +1,9 @@
 import {
 	CLEAR_SELECTED_EVENT,
-	CLEAR_SELECTED_OBJECTS,
+	CLEAR_SELECTED_OBJECTS, SET_IMAGE_INDEX,
 	SET_SELECTED_CAMERA, SET_SELECTED_EVENT,
-	SET_SELECTED_PORT
+	SET_SELECTED_PORT,
+	SET_VISIBLE_SELECTED_IMAGE
 } from "../reducers/portsReducer";
 
 
@@ -23,3 +24,6 @@ export const ClearSelectedEventAction = () => ({
 		event: {},
 	}
 });
+
+export const SelectedImageVisibleAction = (isVisible) => ({type: SET_VISIBLE_SELECTED_IMAGE, payload: isVisible});
+export const SelectedShipImageAction = (number) => ({type: SET_IMAGE_INDEX, payload: number});
