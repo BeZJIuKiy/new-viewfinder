@@ -219,7 +219,7 @@ export const BoatEvents = (props) => {
 	const classes = useStyles();
 
 	const {selectedObjects: {camera, event}} = useSelector(state => state.ports);
-	const {SelectedImageVisibleAction} = useActions();
+	const {SelectedImageVisibleAction, SelectedShipImageAction} = useActions();
 
 	const [data, setData] = useState(camera.events);
 	const [order, setOrder] = React.useState('asc');
@@ -230,23 +230,12 @@ export const BoatEvents = (props) => {
 	const [dense] = React.useState(false);
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
-	// useEffect(() => {
-	// 	setSelected([]);
-	// 	if (props.currentBoat) setData(props.events.filter(e => e.typeVessel === props.currentBoat));
-	// 	// if (props.currentBoat) setData(camera.events.filter(e => e.typeVessel === event.typeVessel));
-	// 	else setData(props.events);
-	//
-	// 	if (props.selectedImage >= 0) {
-	// 		setSelected([props.selectedImage]);
-	// 	}
-	// }, [props.currentBoat, props.selectedImage, props.events]);
-
 	useEffect(() => {
 		setData(typeof event.id === "undefined"
 			? camera.events
 			: camera.events.filter(e => e.typeVessel === event.typeVessel)
 		)
-	}, [event]);
+	}, [event, camera]);
 
 	const rows = data.map(row => {
 		return ({
@@ -294,8 +283,9 @@ export const BoatEvents = (props) => {
 		}
 
 		if (newSelected.length === 1) {
-			props.setSelectedImage(newSelected[0]);
-			props.showSelectedImg(index);
+			// props.setSelectedImage(newSelected[0]);
+			// props.showSelectedImg(index);
+			SelectedShipImageAction(index);
 			SelectedImageVisibleAction(true)
 		} else {
 			SelectedImageVisibleAction(false)

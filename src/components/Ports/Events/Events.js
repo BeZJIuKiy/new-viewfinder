@@ -15,7 +15,8 @@ import {useActions} from "../../../hooks/useActions";
 
 export const Events = () => {
 	const {
-		selectedObjects: {port, camera, event,
+		selectedObjects: {
+			port, camera, event,
 			shipImage: {index: imageIndex, isVisible: imageVisible},
 		},
 	} = useSelector(state => state.ports);
@@ -33,31 +34,31 @@ export const Events = () => {
 	if (typeof port.id === 'undefined') SelectedPortAction(0);
 	if (typeof camera.id === 'undefined') SelectedCameraAction(0);
 
-	const [isImageShow, setIsImageShow] = useState(false);
 	const [currentBoat, setCurrentBoat] = useState('');
 	const [otherCameras, setOtherCameras] = useState();
+	const [showContent, setShowedContent] = useState();
 	const [selectedEvent, setSelectedEvent] = useState(camera);
-	const [selectedImage, setSelectedImage] = useState(-1);
 
-	const clickOnImage = (visible) => setIsImageShow(visible);
+	// console.log(camera.events[0])
 
 	useEffect(() => {
-		setSelectedImage(-1);
-		setIsImageShow(false);
 		setCurrentBoat(event.typeVessel);
 		SelectedImageVisibleAction(false);
 	}, [event]);
 
 	useEffect(() => {
-
-	}, [])
-	const showSelectedImg = (i) => {
 		const curEvent = currentBoat
 			? camera.events.filter(e => e.typeVessel === currentBoat)
 			: camera.events;
+		setSelectedEvent(curEvent[imageIndex]);
+	}, [imageVisible, imageIndex]);
 
-		setSelectedImage(curEvent[i].id);
-		setSelectedEvent(curEvent[i]);
+	const showSelectedImg = (i) => {
+		// 	const curEvent = currentBoat
+		// 		? camera.events.filter(e => e.typeVessel === currentBoat)
+		// 		: camera.events;
+		//
+		// 	setSelectedEvent(curEvent[i]);
 	}
 
 	const changeSelectedImg = (num) => {
@@ -65,20 +66,19 @@ export const Events = () => {
 		const cameraEvent = currentBoat
 			? camera.events.filter(e => e.typeVessel === currentBoat)
 			: camera.events;
+
 		cameraEvent.forEach((element, index) => {
 			if (id === element.id) {
 				const task = (index + num < 0 || index + num === cameraEvent.length);
 				const imgNum = task ? index : index + num;
 
 				setSelectedEvent(cameraEvent[imgNum]);
-				setSelectedImage(cameraEvent[imgNum].id);
 			}
 		});
 	}
 
 	const otherCameraClick = (i) => {
 		SelectedCameraAction(i);
-		setSelectedImage(-1);
 	}
 
 	useEffect(() => {
@@ -101,7 +101,6 @@ export const Events = () => {
 							</IconButton>
 						</div>
 
-
 						<iframe
 							width="285" height="160"
 							src={cam.link}
@@ -121,6 +120,79 @@ export const Events = () => {
 		}));
 	}, [camera]);
 
+	// useEffect(() => {
+	// 	imageIndex
+	// 		? setShowedContent((
+	// 			<div className={`events__live ${imageVisible ? 'hide' : 'show'}`}>
+	// 				<div className='events__live__camera'>
+	// 					<div className={`events__live__camera title`}>
+	// 						{`${camera.city}: ${camera.description}`}
+	// 					</div>
+	// 					<div>
+	// 						<iframe width="676" height="380"
+	// 						        src={camera.link}
+	// 						        title="YouTube video player"
+	// 						        frameBorder="0"
+	// 						        allow="accelerometer;
+	//                                                autoplay;
+	//                                                clipboard-write;
+	//                                                encrypted-media;
+	//                                                gyroscope;
+	//                                                picture-in-picture"
+	// 						        allowFullScreen
+	// 						/>
+	// 					</div>
+	// 				</div>
+	//
+	// 				<div className='events__live__another__cameras'>
+	// 					{otherCameras}
+	// 				</div>
+	// 			</div>
+	// 		))
+	//
+	// 		: setShowedContent((
+	// 			<div className={`events__image ${imageVisible ? 'show' : 'hide'}`}>
+	// 				<div className='events__image__boat'>
+	// 					<div className={`events__image__boat title`}>
+	// 						{selectedEvent.typeVessel}
+	// 						{/*{event.typeVessel}*/}
+	// 					</div>
+	// 					<div className={`events__image__boat img`}>
+	// 						<div className={`events__image__boat close`}>
+	// 							<IconButton style={{color: 'black'}} aria-label="add an alarm">
+	// 								<CloseIcon onClick={() => SelectedImageVisibleAction(false)}/>
+	// 								{/*() => clickOnImage(false)}*/}
+	// 								{/*/>*/}
+	// 							</IconButton>
+	// 						</div>
+	//
+	// 						<IconButton style={{color: '#333'}} aria-label="add an alarm">
+	// 							<ArrowForwardIosIcon
+	// 								className={`events__image__boat left__arrow`}
+	// 								fontSize="large"
+	// 								onClick={() => changeSelectedImg(-1)}
+	// 							/>
+	// 						</IconButton>
+	//
+	// 						<img
+	// 							style={{width: '676px', height: '380px'}}
+	// 							src={selectedEvent.imageLink} alt={selectedEvent.typeVessel}
+	// 							// src={event.imageLink} alt={event.typeVessel}
+	// 						/>
+	//
+	// 						<IconButton style={{color: '#333'}} aria-label="add an alarm">
+	// 							<ArrowForwardIosIcon
+	// 								fontSize="large"
+	// 								onClick={() => changeSelectedImg(+1)}
+	// 							/>
+	// 						</IconButton>
+	// 					</div>
+	// 				</div>
+	//
+	// 			</div>
+	// 		))
+	// , [imageIndex]);
+
 	return (
 		<div className='events'>
 			<div>
@@ -133,17 +205,14 @@ export const Events = () => {
 								<div className={`events__camera__item title`}>EVENTS</div>
 								<div className={`events__camera__item events__and__image`}>
 									<div className='events__camera__item'>
-										<TestList />
+										<TestList/>
 									</div>
 									<div className='events__camera__item'>
-										<TestImage
-											showSelectedImg={showSelectedImg}
-										/>
+										<TestImage/>
 									</div>
 								</div>
 							</div>
 
-							{/*<div className={`events__live ${isImageShow ? 'hide' : 'show'}`}>*/}
 							<div className={`events__live ${imageVisible ? 'hide' : 'show'}`}>
 								<div className='events__live__camera'>
 									<div className={`events__live__camera title`}>
@@ -155,10 +224,10 @@ export const Events = () => {
 										        title="YouTube video player"
 										        frameBorder="0"
 										        allow="accelerometer;
-                                                   autoplay; 
-                                                   clipboard-write; 
-                                                   encrypted-media; 
-                                                   gyroscope; 
+                                                   autoplay;
+                                                   clipboard-write;
+                                                   encrypted-media;
+                                                   gyroscope;
                                                    picture-in-picture"
 										        allowFullScreen
 										/>
@@ -170,41 +239,42 @@ export const Events = () => {
 								</div>
 							</div>
 
-							{/*<div className={`events__image ${isImageShow ? 'show' : 'hide'}`}>*/}
 							<div className={`events__image ${imageVisible ? 'show' : 'hide'}`}>
 								<div className='events__image__boat'>
 									<div className={`events__image__boat title`}>
 										{selectedEvent.typeVessel}
-										{/*{event.typeVessel}*/}
 									</div>
 									<div className={`events__image__boat img`}>
 										<div className={`events__image__boat close`}>
-											<IconButton style={{color: 'black'}} aria-label="add an alarm">
-												<CloseIcon onClick={() => SelectedImageVisibleAction(false)} />
-													{/*() => clickOnImage(false)}*/}
-												{/*/>*/}
+											<IconButton
+												style={{color: 'black'}} aria-label="add an alarm"
+												onClick={() => SelectedImageVisibleAction(false)}
+											>
+												<CloseIcon />
 											</IconButton>
 										</div>
 
-										<IconButton style={{color: '#333'}} aria-label="add an alarm">
+										<IconButton
+											style={{color: '#333'}} aria-label="add an alarm"
+											onClick={() => changeSelectedImg(-1)}
+										>
 											<ArrowForwardIosIcon
 												className={`events__image__boat left__arrow`}
 												fontSize="large"
-												onClick={() => changeSelectedImg(-1)}
 											/>
 										</IconButton>
 
 										<img
 											style={{width: '676px', height: '380px'}}
 											src={selectedEvent.imageLink} alt={selectedEvent.typeVessel}
-											// src={event.imageLink} alt={event.typeVessel}
 										/>
 
-										<IconButton style={{color: '#333'}} aria-label="add an alarm">
-											<ArrowForwardIosIcon
-												fontSize="large"
-												onClick={() => changeSelectedImg(+1)}
-											/>
+										<IconButton
+											style={{color: '#333'}} aria-label="add an alarm"
+											onClick={() => changeSelectedImg(+1)}
+										>
+
+											<ArrowForwardIosIcon fontSize="large"/>
 										</IconButton>
 									</div>
 								</div>
@@ -217,12 +287,7 @@ export const Events = () => {
 
 			<div className={`events__container`}>
 				<div className='events__footer'>
-					<BoatEvents
-						selectedImage={selectedImage}
-						setSelectedImage={setSelectedImage}
-						// closeImage={clickOnImage}
-						showSelectedImg={showSelectedImg}
-					/>
+					<BoatEvents/>
 				</div>
 			</div>
 		</div>

@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 export const TestImage = (props) => {
 	const classes = useStyles();
 	const {selectedObjects: {camera, event, shipImage: {isVisible}}} = useSelector(state => state.ports);
-	const {SelectedImageVisibleAction} = useActions();
+	const {SelectedImageVisibleAction, SelectedShipImageAction} = useActions();
 
 	const [data, setData] = useState(camera.events);
 
@@ -49,8 +49,10 @@ export const TestImage = (props) => {
 				<img
 					style={{cursor: 'pointer'}}
 					onClick={() => {
+						SelectedShipImageAction(i);
 						SelectedImageVisibleAction(true);
-						props.showSelectedImg(i);
+
+						// props.showSelectedImg(i);
 					}}
 					src={tile.imageLink} alt={tile.typeVessel}
 				/>

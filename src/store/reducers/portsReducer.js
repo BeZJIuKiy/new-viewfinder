@@ -33,7 +33,7 @@ const initialState = {
 		camera: {},
 		event: {},
 		shipImage: {
-			index: "",
+			index: 0,
 			isVisible: false,
 		},
 	},
@@ -212,6 +212,7 @@ export const portsReducer = (state = initialState, action) => {
 			shipImage.index = action.payload;
 			return {...state, selectedObjects}
 		}
+
 		default:
 			return state;
 	}
