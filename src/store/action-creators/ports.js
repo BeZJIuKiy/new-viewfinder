@@ -1,6 +1,6 @@
 import {
 	CLEAR_SELECTED_EVENT,
-	CLEAR_SELECTED_OBJECTS, SET_IMAGE_INDEX,
+	CLEAR_SELECTED_OBJECTS, SET_IMAGE_ID, SET_IMAGE_INDEX,
 	SET_SELECTED_CAMERA, SET_SELECTED_EVENT,
 	SET_SELECTED_PORT,
 	SET_VISIBLE_SELECTED_IMAGE
@@ -27,3 +27,4 @@ export const ClearSelectedEventAction = () => ({
 
 export const SelectedImageVisibleAction = (isVisible) => ({type: SET_VISIBLE_SELECTED_IMAGE, payload: isVisible});
 export const SelectedShipImageAction = (number) => ({type: SET_IMAGE_INDEX, payload: number});
+export const SelectedShipImageIdAction = (number) => ({type: SET_IMAGE_ID, payload: number});

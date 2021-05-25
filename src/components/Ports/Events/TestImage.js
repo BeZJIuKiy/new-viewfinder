@@ -32,8 +32,8 @@ const useStyles = makeStyles((theme) => ({
 
 export const TestImage = (props) => {
 	const classes = useStyles();
-	const {selectedObjects: {camera, event, shipImage: {isVisible}}} = useSelector(state => state.ports);
-	const {SelectedImageVisibleAction, SelectedShipImageAction} = useActions();
+	const {selectedObjects: {camera, event}} = useSelector(state => state.ports);
+	const {SelectedImageVisibleAction, SelectedShipImageIdAction, SelectedShipImageAction} = useActions();
 
 	const [data, setData] = useState(camera.events);
 
@@ -41,7 +41,7 @@ export const TestImage = (props) => {
 		typeof event.id !== "undefined"
 			? setData(camera.events.filter(item => item.typeVessel === event.typeVessel))
 			: setData(camera.events);
-	}, [event]);
+	}, [event, camera]);
 
 	const boatImage = data.map((tile, i) => {
 		return (
@@ -49,10 +49,9 @@ export const TestImage = (props) => {
 				<img
 					style={{cursor: 'pointer'}}
 					onClick={() => {
-						SelectedShipImageAction(i);
+						SelectedShipImageIdAction(tile.id);
+						// SelectedShipImageAction(i);
 						SelectedImageVisibleAction(true);
-
-						// props.showSelectedImg(i);
 					}}
 					src={tile.imageLink} alt={tile.typeVessel}
 				/>
