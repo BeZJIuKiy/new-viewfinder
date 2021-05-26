@@ -24,7 +24,8 @@ const useStyles = makeStyles((theme) => ({
 
 export const SimpleList = () => {
 	const {data, portIcon, cameraIcon, selectedObjects} = useSelector(state => state.ports);
-	const {SelectedPortAction, SelectedCameraAction} = useActions();
+	const {newNotifications} = useSelector(state => state.header);
+	const {SelectedPortAction, SelectedCameraAction, AddNewNotificationAction} = useActions();
 	const [allData, setAllData] = useState(data)
 
 	const classes = useStyles();

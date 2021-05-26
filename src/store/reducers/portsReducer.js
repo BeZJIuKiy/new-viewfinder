@@ -39,11 +39,6 @@ const initialState = {
 		},
 	},
 
-	header: {
-		messages: 0,
-		miniAvatar: userAvatar,
-	},
-
 	data: [
 		{
 			id: counter.portsId++,

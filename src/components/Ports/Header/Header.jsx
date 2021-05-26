@@ -22,8 +22,8 @@ const useStyles = makeStyles((theme) => ({
 	}
 }));
 
-export const Header = (props) => {
-	const {header} = useSelector(state => state.ports);
+export const Header = () => {
+	const {newNotifications, miniAvatar} = useSelector(state => state.header);
 	const {ClearSelectedAction} = useActions();
 	const classes = useStyles();
 	const [anchorEl, setAnchorEl] = React.useState(null);
@@ -95,7 +95,7 @@ export const Header = (props) => {
 
 						{/* _________________Управление отображением уведомлений_________________ */}
 						<IconButton aria-label="show 4 new mails" color="inherit">
-							<Badge badgeContent={header.messages} color="secondary">
+							<Badge badgeContent={0} color="secondary">
 								<NavLink to='/ports/'>
 									<MailIcon className='header__icons'/>
 								</NavLink>
@@ -103,7 +103,7 @@ export const Header = (props) => {
 						</IconButton>
 						<IconButton aria-label="show 17 new notifications" color="inherit">
 							{/* <Badge badgeContent={props.notification} color="secondary"> */}
-							<Badge badgeContent={0} color="secondary">
+							<Badge badgeContent={newNotifications} color="secondary">
 								<NavLink to='/events'>
 									<NotificationsIcon className='header__icons'/>
 								</NavLink>
@@ -119,7 +119,7 @@ export const Header = (props) => {
 						>
 							{/* <AccountCircle /> */}
 							<img className='header_profile__icon'
-							     src={header.miniAvatar} alt=""/>
+							     src={miniAvatar} alt=""/>
 						</IconButton>
 					</div>
 					<div className={classes.sectionMobile}>

@@ -4,36 +4,26 @@ import './account.css'
 import Button from '@material-ui/core/Button';
 import { DevicesTable } from './DataTable/DevicesTable';
 import { FleetTable } from './DataTable/FleetTable';
+import {useSelector} from "react-redux";
 
 
 export const Account = (props) => {
-    // Get data block
-    const account = {
-        avatar: props.stateAccount.userData.avatar,
-        name: props.stateAccount.userData.name,
-        company: props.stateAccount.userData.company,
-        phone: props.stateAccount.userData.phone,
-        email: props.stateAccount.userData.email,
-        status: props.stateAccount.userData.status,
-        myFleet: props.stateAccount.myFleet,
-        myDevices: props.stateDevices,
-    };
+    const {
+        userData: {avatar, name, company, phone, email, status},
+        myFleet,
+    } = useSelector(state => state.account)
 
     return (
         <div className='account'>
             <div>
-                <Header
-                    state={props.stateHeader}
-                    notification={props.notification}
-                    firstRenderPorts={()=>{}}
-                />
+                <Header />
 
                 <div className='account__container'>
                     <div className='account__body'>
                         <div className='account__item'>
                             <div className='account__item__title'>Profile</div>
                             <div className='account__item__icon'>
-                                <img src={account.avatar} alt='' />
+                                <img src={avatar} alt='' />
                             </div>
 
                             <div className='account__item__info'>
@@ -47,11 +37,11 @@ export const Account = (props) => {
 
                                 {/* <div className='account__item__user__data'> */}
                                 <div className='account__item__user__data'>
-                                    <div className='account__item__user_nickname'>{account.name}</div>
-                                    <div className='account__item__company'>{account.company}</div>
-                                    <div className='account__item__phone'>{account.phone}</div>
-                                    <div className='account__item__email'>{account.email}</div>
-                                    <div className='account__item__status'>{account.status}</div>
+                                    <div className='account__item__user_nickname'>{name}</div>
+                                    <div className='account__item__company'>{company}</div>
+                                    <div className='account__item__phone'>{phone}</div>
+                                    <div className='account__item__email'>{email}</div>
+                                    <div className='account__item__status'>{status}</div>
                                 </div>
                             </div>
                         </div>
@@ -76,9 +66,7 @@ export const Account = (props) => {
 
                         <div className='account__item'>
                             <div className='account__item__title'>My devices</div>
-                            <DevicesTable
-                                camData={account.myDevices}
-                            />
+                            <DevicesTable />
                         </div>
                     </div>
                 </div>
@@ -87,7 +75,11 @@ export const Account = (props) => {
             <div className='account__container'>
                 <div className='account__footer'>
                     <div className='account__footer__events'>
-                        <FleetTable state={account.myFleet} />
+
+
+                        <FleetTable state={myFleet} />
+
+
                     </div>
                 </div>
             </div>

@@ -14,15 +14,15 @@ import {useActions} from "../../../hooks/useActions";
 
 
 export const Events = () => {
+	// const state = useSelector(state => state.ports);
+	// console.log(state)
+
 	const {
 		selectedObjects: {
 			port, camera, event,
 			shipImage: {isVisible: imageVisible, id: imageId},
 		},
 	} = useSelector(state => state.ports);
-
-	// const state = useSelector(state => state.ports);
-	// console.log(imageVisible)
 
 	const {
 		SelectedPortAction,

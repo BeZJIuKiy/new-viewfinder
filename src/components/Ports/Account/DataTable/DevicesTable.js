@@ -21,6 +21,7 @@ import Switch from '@material-ui/core/Switch';
 import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import EditIcon from '@material-ui/icons/Edit';
+import {useSelector} from "react-redux";
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -228,9 +229,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const DevicesTable = (props) => {
-  let rows = [];
+  const rows = [];
 
-  props.camData.map(d => {
+  const {data} = useSelector(state => state.ports)
+  console.log(data);
+
+  data.map(d => {
       d.cameras.data.map(t => {
         rows.push(t)
       })
