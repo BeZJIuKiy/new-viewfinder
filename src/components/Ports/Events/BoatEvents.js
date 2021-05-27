@@ -20,6 +20,11 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import {useSelector} from "react-redux";
 import {useActions} from "../../../hooks/useActions";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import {isEmptyArray} from "formik";
+
 
 function descendingComparator(a, b, orderBy) {
 	if (b[orderBy] < a[orderBy]) {
@@ -65,6 +70,16 @@ function EnhancedTableHead(props) {
 	return (
 		<TableHead>
 			<TableRow>
+
+				{/*<TableCell align="center">*/}
+				{/*	<FormControlLabel*/}
+				{/*		control={<Checkbox icon={<RadioButtonUncheckedIcon fontSize="small"/>}*/}
+				{/*		                   checkedIcon={<RadioButtonCheckedIcon fontSize="small"/>}*/}
+				{/*		                   name="checkedH"/>*/}
+				{/*		}*/}
+				{/*	/>*/}
+				{/*</TableCell>*/}
+
 				<TableCell padding="checkbox">
 					<Checkbox
 						indeterminate={numSelected > 0 && numSelected < rowCount}
@@ -154,8 +169,8 @@ const EnhancedTableToolbar = (props) => {
 				            component="div"
 				>
 					{/* Events - это заголовок таблицы */}
-					{`ALL EVENTS ${typeof event.id !== "undefined"  
-						? (event.typeVessel) 
+					{`ALL EVENTS ${typeof event.id !== "undefined"
+						? (event.typeVessel)
 						: (camera.description)}`}
 				</Typography>
 			)}
@@ -219,7 +234,8 @@ export const BoatEvents = () => {
 	const classes = useStyles();
 
 	const {
-		selectedObjects: {camera, event,
+		selectedObjects: {
+			camera, event,
 			shipImage: {id: imageId},
 		},
 	} = useSelector(state => state.ports);
@@ -235,7 +251,6 @@ export const BoatEvents = () => {
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
 	useEffect(() => {
-		console.log(typeof event.id === "undefined");
 		setData(typeof event.id === "undefined"
 			? camera.events
 			: camera.events.filter(e => e.typeVessel === event.typeVessel)
@@ -243,7 +258,7 @@ export const BoatEvents = () => {
 	}, [event, camera]);
 
 	useEffect(() => {
-		(imageId >= 0) ? setSelected([imageId]) : setSelected([]);
+		if (imageId >= 0) setSelected([imageId]);
 	}, [imageId])
 
 	const rows = data.map(row => {
@@ -290,15 +305,14 @@ export const BoatEvents = () => {
 				selected.slice(selectedIndex + 1),
 			);
 		}
-
 		if (newSelected.length === 1) {
-			SelectedShipImageIdAction(id);
+			SelectedShipImageIdAction(newSelected[0]);
 			SelectedImageVisibleAction(true);
 		} else {
+			SelectedShipImageIdAction(-1);
 			SelectedImageVisibleAction(false);
 		}
 
-		console.log(newSelected)
 		setSelected(newSelected);
 	};
 
@@ -361,6 +375,16 @@ export const BoatEvents = () => {
 											key={id}
 											selected={isItemSelected}
 										>
+											{/*<TableCell align="center">*/}
+											{/*	<FormControlLabel*/}
+											{/*		// onChange={() => setSelected([])}*/}
+											{/*		control={<Checkbox icon={<RadioButtonUncheckedIcon fontSize="small"/>}*/}
+											{/*		                   checkedIcon={<RadioButtonCheckedIcon fontSize="small"/>}*/}
+											{/*		                   name="checkedH"/>*/}
+											{/*		}*/}
+											{/*	/>*/}
+											{/*</TableCell>*/}
+
 											<TableCell padding="checkbox">
 												<Checkbox
 													checked={isItemSelected}
