@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Header = () => {
-	const {newNotifications, miniAvatar} = useSelector(state => state.header);
+	const {miniAvatar} = useSelector(state => state.header);
 	const {ClearSelectedAction} = useActions();
 	const classes = useStyles();
 	const [anchorEl, setAnchorEl] = React.useState(null);
@@ -103,7 +103,8 @@ export const Header = () => {
 						</IconButton>
 						<IconButton aria-label="show 17 new notifications" color="inherit">
 							{/* <Badge badgeContent={props.notification} color="secondary"> */}
-							<Badge badgeContent={newNotifications} color="secondary">
+							{/*<Badge badgeContent={newNotifications} color="secondary">*/}
+							<Badge badgeContent={0} color="secondary">
 								<NavLink to='/events'>
 									<NotificationsIcon className='header__icons'/>
 								</NavLink>

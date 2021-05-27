@@ -13,6 +13,7 @@ import {NavLink, useHistory} from 'react-router-dom';
 import {setCurrentCamera, setCurrentPort} from '../../../store/OldRedux/portsReduser';
 import {useSelector} from "react-redux";
 import {useActions} from "../../../hooks/useActions";
+import {AddAllNotificationAction} from "../../../store/action-creators/header";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -24,9 +25,14 @@ const useStyles = makeStyles((theme) => ({
 
 export const SimpleList = () => {
 	const {data, portIcon, cameraIcon, selectedObjects} = useSelector(state => state.ports);
-	const {newNotifications} = useSelector(state => state.header);
-	const {SelectedPortAction, SelectedCameraAction, AddNewNotificationAction} = useActions();
+	const {allNotifications} = useSelector(state => state.header);
+	const {SelectedPortAction, SelectedCameraAction, AddNewNotificationAction, AddAllNotificationAction} = useActions();
+
 	const [allData, setAllData] = useState(data)
+	const [portsNote, setPortsNote] = useState({
+		ports: null,
+		cameras: null,
+	});
 
 	const classes = useStyles();
 	const history = useHistory();
@@ -45,15 +51,26 @@ export const SimpleList = () => {
 			setAllData(selectedObjects.port.cameras.data);
 		} else {
 			setAllData(data);
+
+			let allNote = 0;
+
+			allData.map((port, portIndex) => {
+				port.cameras.data.map(camera => {
+					allNote += camera.events.length;
+					AddNewNotificationAction(portIndex, camera.events.length);
+				})
+			})
+
+			AddAllNotificationAction(allNote);
 		}
 	}, [selectedObjects.port]);
 
-	const camData = allData.map((d, i) => {
-		let notific = 0;
-		(d.link === '')
-			? d.cameras.data.map(e => notific += e.events.length)
-			: notific += d.events.length;
+	// useEffect(() => {
+	//
+	// }, [allNotifications])
 
+	const camData = allData.map((d, i) => {
+		const notific = 0;
 		return (
 			<div key={d.id}>
 				<List component="nav" aria-label="main mailbox folders">
@@ -68,6 +85,7 @@ export const SimpleList = () => {
 
 						<IconButton aria-label="show 17 new notifications" color="default">
 							<Badge badgeContent={notific} color="secondary">
+							{/*<Badge badgeContent={allNotifications} color="secondary">*/}
 								<NavLink to="/events">
 									<NotificationsIcon/>
 								</NavLink>
