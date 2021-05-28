@@ -25,14 +25,11 @@ const useStyles = makeStyles((theme) => ({
 
 export const SimpleList = () => {
 	const {data, portIcon, cameraIcon, selectedObjects} = useSelector(state => state.ports);
-	const {allNotifications} = useSelector(state => state.header);
+	const {newNotifications} = useSelector(state => state.header);
 	const {SelectedPortAction, SelectedCameraAction, AddNewNotificationAction, AddAllNotificationAction} = useActions();
 
 	const [allData, setAllData] = useState(data)
-	const [portsNote, setPortsNote] = useState({
-		ports: null,
-		cameras: null,
-	});
+	const [portsNote, setPortsNote] = useState(0);
 
 	const classes = useStyles();
 	const history = useHistory();
@@ -52,16 +49,21 @@ export const SimpleList = () => {
 		} else {
 			setAllData(data);
 
-			let allNote = 0;
+			let newNote = 0;
 
 			allData.map((port, portIndex) => {
+				let num = 0;
 				port.cameras.data.map(camera => {
-					allNote += camera.events.length;
-					AddNewNotificationAction(portIndex, camera.events.length);
+					const temp = camera.events.filter((ev) => ev.newEvent === true);
+					// console.log(temp)
+					num += temp.length;
+					// AddNewNotificationAction(portIndex, camera.events.length);
 				})
+				// console.log(num)
+				AddAllNotificationAction(num);
 			})
 
-			AddAllNotificationAction(allNote);
+			// AddAllNotificationAction(newNote);
 		}
 	}, [selectedObjects.port]);
 

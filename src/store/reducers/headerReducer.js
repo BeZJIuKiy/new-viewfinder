@@ -2,20 +2,7 @@ import {userAvatar} from "./portsReducer";
 
 const initialState = {
 	// allNotifications: null,
-	allNotifications: {
-		ports: [
-			{
-				numNote: 0,
-				newNote: true,
-				camera: [
-					{
-						camNote: 0,
-						newNote: true,
-					}
-				]
-			}
-		],
-	},
+	// allNotifications:
 	newNotifications: null,
 	miniAvatar: userAvatar,
 }

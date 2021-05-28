@@ -77,6 +77,7 @@ const initialState = {
 								time: '10:20:08',
 								timezone: '+0300',
 								imageLink: boat1_03,
+								newEvent: true,
 								description: 'Nothing interesting, keep moving on',
 							},
 
@@ -91,6 +92,7 @@ const initialState = {
 								time: '10:22:31',
 								timezone: '+0300',
 								imageLink: boat1_01,
+								newEvent: true,
 								description: 'Nothing interesting, keep moving on',
 							},
 
@@ -105,6 +107,7 @@ const initialState = {
 								time: '10:24:16',
 								timezone: '+0300',
 								imageLink: boat1_04,
+								newEvent: true,
 								description: 'Nothing interesting, keep moving on',
 							},
 						],
@@ -135,6 +138,7 @@ const initialState = {
 								time: '10:22:31',
 								timezone: '+0300',
 								imageLink: boat1_04,
+								newEvent: true,
 								description: 'Nothing interesting, keep moving on',
 							},
 						],
