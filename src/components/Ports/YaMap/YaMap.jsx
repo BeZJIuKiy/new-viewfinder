@@ -69,10 +69,11 @@ const YaMap = (props) => {
 				properties={{
 					hintContent: `${c.description} cameras`,
 					balloonContent: balContent,
+					// rotation: 100,
 				}}
 				options={{
 					preset: !c.link ? portIcon.map : cameraIcon.map,
-					iconColor: '#ffba00'
+					iconColor: '#ffba00',
 				}}
 				modules={
 					['geoObject.addon.balloon', 'geoObject.addon.hint']

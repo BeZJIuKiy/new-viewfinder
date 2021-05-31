@@ -10,10 +10,8 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import IconButton from '@material-ui/core/IconButton';
 import Badge from '@material-ui/core/Badge';
 import {NavLink, useHistory} from 'react-router-dom';
-import {setCurrentCamera, setCurrentPort} from '../../../store/OldRedux/portsReduser';
 import {useSelector} from "react-redux";
 import {useActions} from "../../../hooks/useActions";
-import {AddAllNotificationAction} from "../../../store/action-creators/header";
 
 const useStyles = makeStyles((theme) => ({
 	root: {
@@ -25,8 +23,12 @@ const useStyles = makeStyles((theme) => ({
 
 export const SimpleList = () => {
 	const {data, portIcon, cameraIcon, selectedObjects} = useSelector(state => state.ports);
-	const {newNotifications} = useSelector(state => state.header);
-	const {SelectedPortAction, SelectedCameraAction, AddNewNotificationAction, AddAllNotificationAction} = useActions();
+	const {newNotifications, portsNewNote, camerasNewNote, allNote} = useSelector(state => state.header);
+	const {
+		SelectedPortAction, SelectedCameraAction,
+		AddNewPortsNotificationAction, AddNewCamerasNotificationAction,
+		AddNewNotificationAction,
+	} = useActions();
 
 	const [allData, setAllData] = useState(data)
 	const [portsNote, setPortsNote] = useState(0);
@@ -51,19 +53,17 @@ export const SimpleList = () => {
 
 			let newNote = 0;
 
-			allData.map((port, portIndex) => {
+			data.map((port, portIndex) => {
 				let num = 0;
-				port.cameras.data.map(camera => {
+				port.cameras.data.map((camera, cameraIndex) => {
 					const temp = camera.events.filter((ev) => ev.newEvent === true);
-					// console.log(temp)
-					num += temp.length;
-					// AddNewNotificationAction(portIndex, camera.events.length);
-				})
-				// console.log(num)
-				AddAllNotificationAction(num);
-			})
+					// AddNewCamerasNotificationAction(temp.length)
 
-			// AddAllNotificationAction(newNote);
+					num += temp.length;
+					AddNewNotificationAction(portIndex, num, cameraIndex, temp.length)
+				})
+				// AddNewPortsNotificationAction(num);
+			})
 		}
 	}, [selectedObjects.port]);
 
@@ -86,8 +86,8 @@ export const SimpleList = () => {
 						<ListItemText primary={d.description}/>
 
 						<IconButton aria-label="show 17 new notifications" color="default">
-							<Badge badgeContent={notific} color="secondary">
-							{/*<Badge badgeContent={allNotifications} color="secondary">*/}
+							{/*<Badge badgeContent={notific} color="secondary">*/}
+							<Badge badgeContent={!d.link ? portsNewNote[i] : camerasNewNote[i]} color="secondary">
 								<NavLink to="/events">
 									<NotificationsIcon/>
 								</NavLink>

@@ -14,6 +14,12 @@ export const ClearSelectedAction = () => ({
 	payload: {
 		port: {},
 		camera: {},
+		event: {},
+		shipImage: {
+			index: 0,
+			isVisible: false,
+			id: -1,
+		},
 	}
 });
 
