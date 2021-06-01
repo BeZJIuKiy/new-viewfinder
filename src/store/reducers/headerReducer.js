@@ -4,10 +4,10 @@ const initialState = {
 	// allNotifications: null,
 	allNotifications: null,
 	allNote: [
-		{
-			portNote: 0,
-			cameraNote: [],
-		},
+		// {
+		// 	portNote: 0,
+		// 	cameraNote: [],
+		// },
 	],
 	portsNewNote: [],
 	camerasNewNote: [],
@@ -16,13 +16,11 @@ const initialState = {
 }
 
 export const ADD_TO_ALL_NOTIFICATIONS = "ADD_TO_ALL_NOTIFICATIONS";
-// export const ADD_NEW_NOTIFICATIONS = "ADD_NEW_NOTIFICATIONS";
 export const ADD_ALL_NEW_NOTIFICATIONS = "ADD_NEW_NOTIFICATIONS";
 export const ADD_NEW_PORTS_NOTIFICATIONS = "ADD_NEW_PORTS_NOTIFICATIONS";
 export const ADD_NEW_CAMERAS_NOTIFICATIONS = "ADD_NEW_CAMERAS_NOTIFICATIONS";
-
-
 export const ADD_NEW_NOTIFICATIONS = "ADD_NEW_NOTIFICATIONS";
+
 
 export const headerReducer = (state = initialState, action) => {
 	switch (action.type) {
@@ -31,24 +29,31 @@ export const headerReducer = (state = initialState, action) => {
 		}
 
 		case ADD_NEW_NOTIFICATIONS: {
-			console.log("ADD_NEW_NOTIFICATIONS")
-			console.log(action.payload)
 			const {allNote} = state;
 			const {portNum, portNote, cameraNum, cameraNote} = action.payload;
+
+			if (!allNote[portNum]) {
+				allNote.push({
+					portNote: 0,
+					cameraNote: [],
+				})
+			}
+
 			allNote[portNum].portNote = portNote;
 			allNote[portNum].cameraNote[cameraNum] = cameraNote;
 
-			console.log(allNote);
-
-			return state;
-			// return {...state, newNotifications: action.payload}
+			// console.log(allNote);
+			return {...state, allNote}
 		}
 
 		case ADD_NEW_PORTS_NOTIFICATIONS: {
-
 			const {portsNewNote} = state
-			portsNewNote.push(action.payload);
-			console.log(portsNewNote);
+			const {index: i, note} = action.payload;
+
+			portsNewNote[i]
+				? portsNewNote[i] = note
+				: portsNewNote.push(note);
+
 			return {...state, portsNewNote};
 		}
 

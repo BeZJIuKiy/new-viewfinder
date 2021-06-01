@@ -31,7 +31,10 @@ export const SimpleList = () => {
 	} = useActions();
 
 	const [allData, setAllData] = useState(data)
-	const [portsNote, setPortsNote] = useState(0);
+	const [notes, setNotes] = useState(data.map(() => 0));
+	// const [notes, setNotes] = useState(data.length);
+	// const [portsNote, setPortsNote] = useState(0);
+	// const [camerasNote, setCamerasNote] = useState(0);
 
 	const classes = useStyles();
 	const history = useHistory();
@@ -48,31 +51,25 @@ export const SimpleList = () => {
 	useEffect(() => {
 		if (selectedObjects.port?.id >= 0) {
 			setAllData(selectedObjects.port.cameras.data);
+			const {data: camData} = selectedObjects.port.cameras;
+			setNotes(camData.map(({events}) => events.length));
 		} else {
 			setAllData(data);
 
-			let newNote = 0;
-
 			data.map((port, portIndex) => {
 				let num = 0;
-				port.cameras.data.map((camera, cameraIndex) => {
-					const temp = camera.events.filter((ev) => ev.newEvent === true);
-					// AddNewCamerasNotificationAction(temp.length)
-
+				port.cameras.data.map(({events}) => {
+					const temp = events.filter(({newEvent}) => newEvent === true);
 					num += temp.length;
-					AddNewNotificationAction(portIndex, num, cameraIndex, temp.length)
 				})
-				// AddNewPortsNotificationAction(num);
-			})
+				AddNewPortsNotificationAction(portIndex, num);
+			});
+
+			setNotes(portsNewNote);
 		}
 	}, [selectedObjects.port]);
 
-	// useEffect(() => {
-	//
-	// }, [allNotifications])
-
 	const camData = allData.map((d, i) => {
-		const notific = 0;
 		return (
 			<div key={d.id}>
 				<List component="nav" aria-label="main mailbox folders">
@@ -86,8 +83,7 @@ export const SimpleList = () => {
 						<ListItemText primary={d.description}/>
 
 						<IconButton aria-label="show 17 new notifications" color="default">
-							{/*<Badge badgeContent={notific} color="secondary">*/}
-							<Badge badgeContent={!d.link ? portsNewNote[i] : camerasNewNote[i]} color="secondary">
+							<Badge badgeContent={notes[i]} color="secondary">
 								<NavLink to="/events">
 									<NotificationsIcon/>
 								</NavLink>

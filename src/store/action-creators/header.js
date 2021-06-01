@@ -13,6 +13,6 @@ export const AddNewNotificationAction = (portNum, portNote = 0, cameraNum, camer
 });
 export const AddAllNewNotificationAction = (number = 1) => ({type: ADD_ALL_NEW_NOTIFICATIONS, payload: number});
 
-export const AddNewPortsNotificationAction = (number = 1) => ({type: ADD_NEW_PORTS_NOTIFICATIONS, payload: number});
-export const AddNewCamerasNotificationAction = (number = 1) => ({type: ADD_NEW_CAMERAS_NOTIFICATIONS, payload: number});
+export const AddNewPortsNotificationAction = (index, note) => ({type: ADD_NEW_PORTS_NOTIFICATIONS, payload: {index, note}});
+export const AddNewCamerasNotificationAction = (index, note) => ({type: ADD_NEW_CAMERAS_NOTIFICATIONS, payload: {index, note}});
 
