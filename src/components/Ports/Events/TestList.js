@@ -19,16 +19,14 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const TestList = (props) => {
+export const TestList = () => {
 	const classes = useStyles();
 	const {SelectedEventAction, ClearSelectedEventAction} = useActions();
 	const {selectedObjects: {camera}} = useSelector(state => state.ports)
 
 	let allTypeVessel = camera.events.map(b => b.typeVessel);
 
-	allTypeVessel = allTypeVessel.filter((item, pos) => (
-		allTypeVessel.indexOf(item) === pos
-	));
+	allTypeVessel = allTypeVessel.filter((item, pos) => allTypeVessel.indexOf(item) === pos);
 
 
 	const boat = allTypeVessel.map((type, i) => {
@@ -52,7 +50,6 @@ export const TestList = (props) => {
 				</ListItem>
 			</List>
 			<Divider/>
-
 			{boat}
 		</div>
 	);

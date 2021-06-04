@@ -75,11 +75,7 @@ export const Account = (props) => {
             <div className='account__container'>
                 <div className='account__footer'>
                     <div className='account__footer__events'>
-
-
                         <FleetTable state={myFleet} />
-
-
                     </div>
                 </div>
             </div>

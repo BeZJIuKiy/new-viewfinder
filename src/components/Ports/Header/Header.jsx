@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -23,8 +23,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export const Header = () => {
-	const {miniAvatar} = useSelector(state => state.header);
-	const {ClearSelectedAction} = useActions();
+	const {miniAvatar, allNewNote, portsNewNote} = useSelector(state => state.header);
+	const {data, selectedObjects: {port, camera, event}} = useSelector(state => state.ports);
+	const {ClearSelectedAction, AddNewPortsNotificationAction, AddAllNewNotificationAction} = useActions();
 	const classes = useStyles();
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -50,6 +51,19 @@ export const Header = () => {
 	};
 
 	const menuId = 'primary-search-account-menu';
+
+	useEffect(() => {
+		data.map((port, portIndex) => {
+			let num = 0;
+			port.cameras.data.map(({events}) => {
+				const temp = events.filter(({newEvent}) => newEvent === true);
+				num += temp.length;
+			})
+			AddNewPortsNotificationAction(portIndex, num);
+		});
+
+		AddAllNewNotificationAction(portsNewNote);
+	}, [port, camera, event])
 
 	const renderMenu = (
 		<Menu
@@ -102,9 +116,7 @@ export const Header = () => {
 							</Badge>
 						</IconButton>
 						<IconButton aria-label="show 17 new notifications" color="inherit">
-							{/* <Badge badgeContent={props.notification} color="secondary"> */}
-							{/*<Badge badgeContent={newNotifications} color="secondary">*/}
-							<Badge badgeContent={0} color="secondary">
+							<Badge badgeContent={allNewNote} color="secondary">
 								<NavLink to='/events'>
 									<NotificationsIcon className='header__icons'/>
 								</NavLink>

@@ -23,18 +23,15 @@ const useStyles = makeStyles((theme) => ({
 
 export const SimpleList = () => {
 	const {data, portIcon, cameraIcon, selectedObjects} = useSelector(state => state.ports);
-	const {newNotifications, portsNewNote, camerasNewNote, allNote} = useSelector(state => state.header);
+	const {portsNewNote, camerasNewNote} = useSelector(state => state.header);
 	const {
 		SelectedPortAction, SelectedCameraAction,
 		AddNewPortsNotificationAction, AddNewCamerasNotificationAction,
-		AddNewNotificationAction,
+		AddAllNewNotificationAction,
 	} = useActions();
 
 	const [allData, setAllData] = useState(data)
 	const [notes, setNotes] = useState(data.map(() => 0));
-	// const [notes, setNotes] = useState(data.length);
-	// const [portsNote, setPortsNote] = useState(0);
-	// const [camerasNote, setCamerasNote] = useState(0);
 
 	const classes = useStyles();
 	const history = useHistory();
@@ -52,19 +49,15 @@ export const SimpleList = () => {
 		if (selectedObjects.port?.id >= 0) {
 			setAllData(selectedObjects.port.cameras.data);
 			const {data: camData} = selectedObjects.port.cameras;
-			setNotes(camData.map(({events}) => events.length));
-		} else {
-			setAllData(data);
-
-			data.map((port, portIndex) => {
-				let num = 0;
-				port.cameras.data.map(({events}) => {
-					const temp = events.filter(({newEvent}) => newEvent === true);
-					num += temp.length;
-				})
-				AddNewPortsNotificationAction(portIndex, num);
+			camData.map(({events}, i) => {
+				const notes = (events.filter(({newEvent}) => !!newEvent)).length;
+				AddNewCamerasNotificationAction(i, notes);
 			});
 
+			setNotes(camerasNewNote);
+
+		} else {
+			setAllData(data);
 			setNotes(portsNewNote);
 		}
 	}, [selectedObjects.port]);

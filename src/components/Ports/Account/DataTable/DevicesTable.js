@@ -228,11 +228,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const DevicesTable = (props) => {
+export const DevicesTable = () => {
   const rows = [];
 
   const {data} = useSelector(state => state.ports)
-  console.log(data);
 
   data.map(d => {
       d.cameras.data.map(t => {
