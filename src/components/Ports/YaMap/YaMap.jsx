@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {YMaps, Map, Placemark} from 'react-yandex-maps';
+import {YMaps, Map, Placemark, RulerControl, TypeSelector,} from 'react-yandex-maps';
 import './yaMap.css';
 import {useSelector} from "react-redux";
 import {useActions} from "../../../hooks/useActions";
@@ -12,13 +12,24 @@ const YaMap = (props) => {
 	const [balContent, setBalContent] = useState('');
 	const [mapCenter, setMapCenter] = useState();
 
+	// const rulerControl = (<RulerControl options={{float: 'right'}}/>)
+	// const typeSelector = (<TypeSelector options={{float: 'right'}}/>)
+
 	useEffect(() => {
 		if (selectedObjects.port?.id >= 0) {
 			setAllData(selectedObjects.port.cameras.data);
 
 			setMapCenter({
 				center: selectedObjects.port.coordinates,
-				zoom: selectedObjects.port.cameras.data[0].zoom
+				zoom: selectedObjects.port.cameras.data[0].zoom,
+				controls: [
+					'zoomControl',
+					'fullscreenControl',
+					'typeSelector',
+					'rulerControl',
+					// 'geolocationControl',
+					// 'routeEditor',
+				],
 			});
 		} else {
 			setAllData(data);
@@ -27,6 +38,14 @@ const YaMap = (props) => {
 			setMapCenter({
 				center: coordinates,
 				zoom: data[0].zoom,
+				controls: [
+					'zoomControl',
+					'fullscreenControl',
+					'typeSelector',
+					'rulerControl',
+					// 'geolocationControl',
+					// 'routeEditor',
+				],
 			});
 			setBalContent('');
 		}
@@ -63,7 +82,7 @@ const YaMap = (props) => {
 	const porstCoord = allData.map((c, i) => {
 		return (
 			<Placemark
-				onClick={() => (!c.link) ? SelectedPortAction(i) : clickOnCamera(c, i) }
+				onClick={() => (!c.link) ? SelectedPortAction(i) : clickOnCamera(c, i)}
 				key={c.description}
 				geometry={c.coordinates}
 				properties={{
@@ -75,9 +94,7 @@ const YaMap = (props) => {
 					preset: !c.link ? portIcon.map : cameraIcon.map,
 					iconColor: '#ffba00',
 				}}
-				modules={
-					['geoObject.addon.balloon', 'geoObject.addon.hint']
-				}
+				modules={['geoObject.addon.balloon', 'geoObject.addon.hint']}
 			/>
 		)
 	});
@@ -86,7 +103,15 @@ const YaMap = (props) => {
 		<div className={`yamap ${props.isVisible ? 'show' : 'hide'}`} style={{...props.style}}>
 			<YMaps query={{lang: "en_US"}}>
 				<Map className='yamap__item'
-					state={mapCenter}
+				     state={mapCenter}
+				     modules={[
+				     	'control.ZoomControl',
+					     'control.FullscreenControl',
+					     'control.TypeSelector',
+					     'control.RulerControl',
+					     // 'control.GeolocationControl',
+					     // 'control.RouteEditor',
+				     ]}
 				>
 					{porstCoord}
 				</Map>

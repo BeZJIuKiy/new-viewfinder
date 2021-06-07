@@ -25,7 +25,10 @@ const useStyles = makeStyles((theme) => ({
 export const Header = () => {
 	const {miniAvatar, allNewNote, portsNewNote} = useSelector(state => state.header);
 	const {data, selectedObjects: {port, camera, event}} = useSelector(state => state.ports);
-	const {ClearSelectedAction, AddNewPortsNotificationAction, AddAllNewNotificationAction} = useActions();
+	const {
+		ClearSelectedAction,
+		AddNewPortsNotificationAction, AddNewCamerasNotificationAction, AddAllNewNotificationAction
+	} = useActions();
 	const classes = useStyles();
 	const [anchorEl, setAnchorEl] = React.useState(null);
 	const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -52,18 +55,29 @@ export const Header = () => {
 
 	const menuId = 'primary-search-account-menu';
 
-	useEffect(() => {
-		data.map((port, portIndex) => {
+	const setPortNotes = () => {
+		data.forEach(({cameras: {data}}, portIndex) => {
 			let num = 0;
-			port.cameras.data.map(({events}) => {
-				const temp = events.filter(({newEvent}) => newEvent === true);
-				num += temp.length;
+			data.forEach(({events}) => {
+				const temp = (events.filter(({newEvent}) => newEvent === true).length);
+				num += temp;
 			})
 			AddNewPortsNotificationAction(portIndex, num);
-		});
+		})
+	};
+
+	const setCameraNotes = () => {
+		port.cameras.data.forEach(({events}, i) => {
+			const notes = (events.filter(({newEvent}) => !!newEvent)).length;
+			AddNewCamerasNotificationAction(i, notes);
+		})
+	};
+
+	useEffect(() => {
+		port.id >= 0 ? setCameraNotes() : setPortNotes();
 
 		AddAllNewNotificationAction(portsNewNote);
-	}, [port, camera, event])
+	}, [port, camera, event]);
 
 	const renderMenu = (
 		<Menu
@@ -87,7 +101,6 @@ export const Header = () => {
 
 	return (
 		<div className={classes.grow}>
-			{/* <AppBar position="static" color="red"> */}
 			<AppBar position="static" style={{background: '#2d2d2d'}}>
 				<Toolbar>
 					<NavLink className={'navButtonsHome'}

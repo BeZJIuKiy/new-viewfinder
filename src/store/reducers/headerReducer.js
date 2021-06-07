@@ -15,7 +15,6 @@ export const ADD_NEW_CAMERAS_NOTIFICATIONS = "ADD_NEW_CAMERAS_NOTIFICATIONS";
 export const headerReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case ADD_ALL_NEW_NOTIFICATIONS: {
-			// const {} = action.payload;
 			let allNewNote = 0;
 			action.payload.forEach((portNote) => allNewNote += portNote);
 			return {...state, allNewNote};

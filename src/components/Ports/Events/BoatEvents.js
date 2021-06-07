@@ -251,10 +251,12 @@ export const BoatEvents = () => {
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
 	useEffect(() => {
-		setData(typeof event.id === "undefined"
-			? camera.events
-			: camera.events.filter(e => e.typeVessel === event.typeVessel)
-		)
+		setData(Number.isInteger(event.id)
+			? camera.events.filter(e => e.typeVessel === event.typeVessel)
+			: camera.events
+		);
+
+		setSelected([]);
 	}, [event, camera]);
 
 	useEffect(() => {

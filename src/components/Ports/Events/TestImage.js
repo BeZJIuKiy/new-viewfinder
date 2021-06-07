@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => ({
 		transform: 'translateZ(0)',
 	},
 	titleBar: {
+		cursor: "pointer",
 		background:
 			'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
 			'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
@@ -30,10 +31,10 @@ const useStyles = makeStyles((theme) => ({
 	},
 }));
 
-export const TestImage = (props) => {
+export const TestImage = () => {
 	const classes = useStyles();
 	const {selectedObjects: {camera, event}} = useSelector(state => state.ports);
-	const {SelectedImageVisibleAction, SelectedShipImageIdAction, SelectedShipImageAction} = useActions();
+	const {SelectedImageVisibleAction, SelectedShipImageIdAction} = useActions();
 
 	const [data, setData] = useState(camera.events);
 
@@ -43,21 +44,22 @@ export const TestImage = (props) => {
 			: setData(camera.events);
 	}, [event, camera]);
 
-	const boatImage = data.map((tile, i) => {
+	// const boatImage = data.map((tile) => {
+	const boatImage = data.map(({id, imageLink, typeVessel}) => {
 		return (
-			<GridListTile key={tile.id} cols={2} rows={2}>
+			<GridListTile key={id} cols={2} rows={2}
+			              onClick={() => {
+				              SelectedShipImageIdAction(id);
+				              SelectedImageVisibleAction(true);
+			              }}
+			>
 				<img
 					style={{cursor: 'pointer'}}
-					onClick={() => {
-						SelectedShipImageIdAction(tile.id);
-						// SelectedShipImageAction(i);
-						SelectedImageVisibleAction(true);
-					}}
-					src={tile.imageLink} alt={tile.typeVessel}
+					src={imageLink} alt={typeVessel}
 				/>
 				<GridListTileBar
 					className={classes.titleBar}
-					title={tile.typeVessel}
+					title={typeVessel}
 					titlePosition="top"
 					actionPosition="left"
 				/>

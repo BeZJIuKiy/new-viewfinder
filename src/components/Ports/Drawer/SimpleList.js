@@ -26,12 +26,11 @@ export const SimpleList = () => {
 	const {portsNewNote, camerasNewNote} = useSelector(state => state.header);
 	const {
 		SelectedPortAction, SelectedCameraAction,
-		AddNewPortsNotificationAction, AddNewCamerasNotificationAction,
-		AddAllNewNotificationAction,
 	} = useActions();
 
 	const [allData, setAllData] = useState(data)
 	const [notes, setNotes] = useState(data.map(() => 0));
+	const [icon, setIcon] = useState();
 
 	const classes = useStyles();
 	const history = useHistory();
@@ -40,40 +39,42 @@ export const SimpleList = () => {
 		SelectedPortAction(i);
 		SelectedCameraAction(0);
 	}
+
 	const changeDataCamera = (i) => {
 		SelectedCameraAction(i);
 		history.push('/events');
 	}
 
+	const setData = (data, note, icon) => {
+		setAllData(data);
+		setNotes(note);
+		setIcon(icon);
+	}
+
 	useEffect(() => {
-		if (selectedObjects.port?.id >= 0) {
-			setAllData(selectedObjects.port.cameras.data);
-			const {data: camData} = selectedObjects.port.cameras;
-			camData.map(({events}, i) => {
-				const notes = (events.filter(({newEvent}) => !!newEvent)).length;
-				AddNewCamerasNotificationAction(i, notes);
-			});
+		const {id, cameras} = selectedObjects.port;
+		const portId = Number.isInteger(id);
 
-			setNotes(camerasNewNote);
-
-		} else {
-			setAllData(data);
-			setNotes(portsNewNote);
-		}
+		portId
+			? setData(cameras.data, camerasNewNote, cameraIcon.drawer)
+			: setData(data, portsNewNote, portIcon.drawer);
 	}, [selectedObjects.port]);
 
-	const camData = allData.map((d, i) => {
+	const camData = allData.map(({id, link, description}, i) => {
+		const portId = Number.isInteger(selectedObjects.port.id);
+
 		return (
-			<div key={d.id}>
+			<div key={id}>
 				<List component="nav" aria-label="main mailbox folders">
 					<ListItem button
-					          onClick={() => !d.link ? changeDataPorts(i) : changeDataCamera(i)}
+					          onClick={() => portId ? changeDataCamera(i) : changeDataPorts(i)}
 					>
 						<ListItemIcon>
-							<Icon><img src={!d.link ? portIcon.drawer : cameraIcon.drawer} height={25} width={25}
-							           alt=""/></Icon>
+							<Icon>
+								<img src={icon} height={25} width={25} alt=""/>
+							</Icon>
 						</ListItemIcon>
-						<ListItemText primary={d.description}/>
+						<ListItemText primary={description}/>
 
 						<IconButton aria-label="show 17 new notifications" color="default">
 							<Badge badgeContent={notes[i]} color="secondary">

@@ -21,6 +21,8 @@ export const Events = () => {
 		},
 	} = useSelector(state => state.ports);
 
+	const {camerasNewNote} = useSelector(state => state.header)
+
 	const {
 		SelectedPortAction,
 		SelectedCameraAction,
@@ -80,20 +82,21 @@ export const Events = () => {
 	}
 
 	useEffect(() => {
-		setOtherCameras(port.cameras.data.map((cam, i) => {
-			if (cam.id !== camera.id) {
+		setOtherCameras(port.cameras.data.map(({id, description, events, link}, i) => {
+			if (id !== camera.id) {
 				return (
-					<div className='events__live__another__cameras__item' key={cam.id + 10}>
+					<div className='events__live__another__cameras__item' key={id}>
 						<div className="events__live__go__another__camera"
 						     onClick={() => otherCameraClick(i)}
 						/>
 
 						<div className={`events__live__another__cameras title`}>
-							{`${cam.description}`}
+							{`${description}`}
 
 							{/* <IconButton aria-label="show 4 new mails" color="inherit"> */}
 							<IconButton color="inherit" style={{padding: '10px 0 0 5px'}}>
-								<Badge badgeContent={cam.events.length} color="secondary">
+								{/*<Badge badgeContent={events.length} color="secondary">*/}
+								<Badge badgeContent={camerasNewNote[i]} color="secondary">
 									<NotificationsIcon color="primary"/>
 								</Badge>
 							</IconButton>
@@ -101,7 +104,7 @@ export const Events = () => {
 
 						<iframe
 							width="285" height="160"
-							src={cam.link}
+							src={link}
 							title="YouTube video player"
 							frameBorder="0"
 							allow="accelerometer;
@@ -147,6 +150,7 @@ export const Events = () => {
 										<iframe width="676" height="380"
 										        src={camera.link}
 										        title="YouTube video player"
+										        // title={`sdf`}
 										        frameBorder="0"
 										        allow="accelerometer;
                                                    autoplay;
