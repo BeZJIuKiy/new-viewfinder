@@ -44,8 +44,8 @@ const redusers = combineReducers({
 });
 
 
-export const store = createStore(redusers, oldState);
-// export const store = createStore(redusers);
+// export const store = createStore(redusers, oldState);
+export const store = createStore(redusers);
 
 // Add a change listener to the store, and invoke our saveState function defined above.
 

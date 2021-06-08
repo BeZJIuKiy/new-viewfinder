@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {YMaps, Map, Placemark, RulerControl, TypeSelector,} from 'react-yandex-maps';
+import {Map, Placemark, YMaps} from 'react-yandex-maps';
+// import {YMaps, Map, Placemark, RulerControl, TypeSelector,} from 'react-yandex-maps';
 import './yaMap.css';
 import {useSelector} from "react-redux";
 import {useActions} from "../../../hooks/useActions";
@@ -15,46 +16,32 @@ const YaMap = (props) => {
 	// const rulerControl = (<RulerControl options={{float: 'right'}}/>)
 	// const typeSelector = (<TypeSelector options={{float: 'right'}}/>)
 
-	useEffect(() => {
-		if (selectedObjects.port?.id >= 0) {
-			setAllData(selectedObjects.port.cameras.data);
+	const mapData = (center, zoom, controls) => setMapCenter({center, zoom, controls});
 
-			setMapCenter({
-				center: selectedObjects.port.coordinates,
-				zoom: selectedObjects.port.cameras.data[0].zoom,
-				controls: [
-					'zoomControl',
-					'fullscreenControl',
-					'typeSelector',
-					'rulerControl',
-					// 'geolocationControl',
-					// 'routeEditor',
-				],
-			});
+	useEffect(() => {
+		const portId = Number.isInteger(selectedObjects.port.id);
+		const controls = [
+			'zoomControl',
+			'fullscreenControl',
+			'typeSelector',
+			'rulerControl',
+		];
+
+		if (portId) {
+			setAllData(selectedObjects.port.cameras.data);
+			mapData(selectedObjects.port.coordinates, selectedObjects.port.cameras.data[0].zoom, controls)
 		} else {
 			setAllData(data);
-			const {coordinates} = data[0].cameras.data[0];
-
-			setMapCenter({
-				center: coordinates,
-				zoom: data[0].zoom,
-				controls: [
-					'zoomControl',
-					'fullscreenControl',
-					'typeSelector',
-					'rulerControl',
-					// 'geolocationControl',
-					// 'routeEditor',
-				],
-			});
-			setBalContent('');
+			mapData(data[0].cameras.data[0].coordinates, data[0].zoom, controls);
 		}
+
+		// setBalContent('');
 	}, [selectedObjects.port]);
 
-	const clickOnCamera = (data, i) => {
+	const clickOnCamera = (camera, i) => {
 		SelectedCameraAction(i);
 
-		const {name, description, type, coordinates, link} = data;
+		const {name, description, type, coordinates, link} = camera;
 		setBalContent(`
 		    <div class="yamap__balloon__content">
 		        <iframe width="400" height="300"
@@ -105,12 +92,10 @@ const YaMap = (props) => {
 				<Map className='yamap__item'
 				     state={mapCenter}
 				     modules={[
-				     	'control.ZoomControl',
+					     'control.ZoomControl',
 					     'control.FullscreenControl',
 					     'control.TypeSelector',
 					     'control.RulerControl',
-					     // 'control.GeolocationControl',
-					     // 'control.RouteEditor',
 				     ]}
 				>
 					{porstCoord}
