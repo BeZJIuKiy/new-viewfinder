@@ -44,7 +44,7 @@ export const Events = () => {
 	}, [event]);
 
 	const findImageId = () => {
-		for(let i = 0; i < camera.events.length; ++i) {
+		for (let i = 0; i < camera.events.length; ++i) {
 			if (camera.events[i].id === imageId) {
 				return camera.events[i];
 			}
@@ -121,6 +121,17 @@ export const Events = () => {
 		}));
 	}, [camera]);
 
+	// const temp = camera.events.length;
+	const text = () => {
+		console.log("вызвал");
+
+		return (
+			<div>
+				123
+			</div>
+		)
+	}
+
 	return (
 		<div className='events'>
 			<div>
@@ -148,17 +159,17 @@ export const Events = () => {
 									</div>
 									<div>
 										<iframe width="676" height="380"
-										        src={camera.link}
-										        title="YouTube video player"
-										        // title={`sdf`}
-										        frameBorder="0"
-										        allow="accelerometer;
+											// src={camera.link + '&autoplay="yes"'}
+											    src={camera.link}
+											    title="YouTube video player"
+											    frameBorder="0"
+											    allow="accelerometer;
                                                    autoplay;
                                                    clipboard-write;
                                                    encrypted-media;
                                                    gyroscope;
                                                    picture-in-picture"
-										        allowFullScreen
+											    allowFullScreen
 										/>
 									</div>
 								</div>
@@ -171,7 +182,8 @@ export const Events = () => {
 							<div className={`events__image ${imageVisible ? 'show' : 'hide'}`}>
 								<div className='events__image__boat'>
 									<div className={`events__image__boat title`}>
-										{selectedEvent.typeVessel}
+										{text()}
+										{/*{selectedEvent.typeVessel ? selectedEvent.typeVessel : ""}*/}
 									</div>
 									<div className={`events__image__boat img`}>
 										<div className={`events__image__boat close`}>
@@ -179,7 +191,7 @@ export const Events = () => {
 												style={{color: 'black'}} aria-label="add an alarm"
 												onClick={closeImage}
 											>
-												<CloseIcon />
+												<CloseIcon/>
 											</IconButton>
 										</div>
 

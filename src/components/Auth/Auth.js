@@ -49,7 +49,6 @@ export const Auth = () => {
 				</div>
 			</div>
 			<div className='auth__wrapper'>
-
 				<div className='auth__item'>
 					<Formik
 						className='formik__demo__submit'

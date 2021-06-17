@@ -80,36 +80,36 @@ const initialState = {
 								newEvent: true,
 								description: 'Nothing interesting, keep moving on',
 							},
-
-							{
-								id: counter.eventsId++,
-								typeError: 'Regular',
-								typeVessel: 'Boat 2',
-								location: 'Russia',
-								city: 'Saint Petersburg',
-								camera: 'Camera 1',
-								date: '2020-12-21',
-								time: '10:22:31',
-								timezone: '+0300',
-								imageLink: boat1_01,
-								newEvent: true,
-								description: 'Nothing interesting, keep moving on',
-							},
-
-							{
-								id: counter.eventsId++,
-								typeError: 'Regular',
-								typeVessel: 'Boat 2',
-								location: 'Russia',
-								city: 'Saint Petersburg',
-								camera: 'Camera 1',
-								date: '2020-12-21',
-								time: '10:24:16',
-								timezone: '+0300',
-								imageLink: boat1_04,
-								newEvent: true,
-								description: 'Nothing interesting, keep moving on',
-							},
+							//
+							// {
+							// 	id: counter.eventsId++,
+							// 	typeError: 'Regular',
+							// 	typeVessel: 'Boat 2',
+							// 	location: 'Russia',
+							// 	city: 'Saint Petersburg',
+							// 	camera: 'Camera 1',
+							// 	date: '2020-12-21',
+							// 	time: '10:22:31',
+							// 	timezone: '+0300',
+							// 	imageLink: boat1_01,
+							// 	newEvent: true,
+							// 	description: 'Nothing interesting, keep moving on',
+							// },
+							//
+							// {
+							// 	id: counter.eventsId++,
+							// 	typeError: 'Regular',
+							// 	typeVessel: 'Boat 2',
+							// 	location: 'Russia',
+							// 	city: 'Saint Petersburg',
+							// 	camera: 'Camera 1',
+							// 	date: '2020-12-21',
+							// 	time: '10:24:16',
+							// 	timezone: '+0300',
+							// 	imageLink: boat1_04,
+							// 	newEvent: true,
+							// 	description: 'Nothing interesting, keep moving on',
+							// },
 						],
 					},
 
@@ -299,7 +299,6 @@ export const SET_IMAGE_INDEX = "SET_IMAGE_INDEX";
 export const SET_IMAGE_ID = "SET_IMAGE_ID";
 
 
-// Reducer
 export const portsReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case SET_SELECTED_PORT: {

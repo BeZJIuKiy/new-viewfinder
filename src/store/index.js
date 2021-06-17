@@ -26,8 +26,8 @@ const loadState = () => {
 
 const oldState = loadState();
 
-export const store = createStore(rootReducer, oldState);
-// export const store = createStore(rootReducer);
+// export const store = createStore(rootReducer, oldState);
+export const store = createStore(rootReducer);
 
 store.subscribe(() => {
 	saveState(store.getState());
